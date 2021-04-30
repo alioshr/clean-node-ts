@@ -7,12 +7,11 @@ export class SignUpController {
       statusCode: 200,
       body: {}
     }
-
-    if (!httpRequest.body.name) {
-      response = badRequest(new MissingParamError('name'))
-    }
-    if (!httpRequest.body.email) {
-      response = badRequest(new MissingParamError('email'))
+    const bodyFields = ['name', 'email']
+    for (const field of bodyFields) {
+      if (!httpRequest.body[field]) {
+        response = badRequest(new MissingParamError(field))
+      }
     }
     return response
   }
