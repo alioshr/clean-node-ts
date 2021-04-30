@@ -7,7 +7,7 @@ export class SignUpController {
       statusCode: 200,
       body: {}
     }
-    const bodyFields = ['name', 'email', 'password']
+    const bodyFields = ['name', 'email', 'password', 'confirmPassword']
     for (const field of bodyFields) {
       if (!httpRequest.body[field]) {
         response = badRequest(new MissingParamError(field))
