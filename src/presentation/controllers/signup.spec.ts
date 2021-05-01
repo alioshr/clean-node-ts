@@ -140,4 +140,18 @@ describe('Auth Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
   })
+  test('should return 400 if password and confirmPassword do not match', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any',
+        email: 'invalid_mail@mail.com',
+        password: 'any',
+        confirmPassword: 'any1'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.body).toEqual(new InvalidParamError('confirmPassword'))
+  })
 })
