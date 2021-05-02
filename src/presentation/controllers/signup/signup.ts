@@ -1,4 +1,4 @@
-import { badRequest, serverError } from '../../helpers/http-helper'
+import { badRequest, serverError, ok } from '../../helpers/http-helper'
 import {
   HttpRequest,
   HttpResponse,
@@ -19,36 +19,25 @@ export class SignUpController implements Controller {
   }
 
   handle (httpRequest: HttpRequest): HttpResponse {
-    let response: HttpResponse = {
-      statusCode: 200,
-      body: {}
-    }
-
     try {
       const bodyFields = ['name', 'email', 'password', 'confirmPassword']
       for (const field of bodyFields) {
         if (!httpRequest.body[field]) {
-          response = badRequest(new MissingParamError(field))
-          return response
+          return badRequest(new MissingParamError(field))
         }
       }
       const { name, email, password, confirmPassword } = httpRequest.body
       if (password !== confirmPassword) {
-        response = badRequest(new InvalidParamError('confirmPassword'))
-        return response
+        return badRequest(new InvalidParamError('confirmPassword'))
       }
       const isValidMail = this.emailValidator.isValid(email)
       if (!isValidMail) {
-        response = badRequest(new InvalidParamError('email'))
-        return response
+        return badRequest(new InvalidParamError('email'))
       }
       const newAccount = this.addAccount.add({ name, password, email })
-      response.body = newAccount
+      return ok(newAccount)
     } catch (err) {
-      response = serverError()
-      return response
+      return serverError()
     }
-
-    return response
   }
 }
