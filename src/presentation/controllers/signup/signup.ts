@@ -39,5 +39,5 @@ export class SignUpController implements Controller {
     } catch (err) {
       return serverError()
     }
-  }
+  }// ncrunch: no coverage
 }
