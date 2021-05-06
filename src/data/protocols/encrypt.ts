@@ -1,3 +1,3 @@
 export interface Encrypt {
-  hash: (password: string) => Promise<string>
+  hash: (password: string) => Promise<string | Error>
 }

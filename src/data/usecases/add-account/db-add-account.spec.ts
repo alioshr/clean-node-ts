@@ -4,7 +4,7 @@ import { Encrypt } from '../../protocols/encrypt'
 
 const makeEncrypter = (): Encrypt => {
   class EncryptStub implements Encrypt {
-    async hash (password: string): Promise<string> {
+    async hash (password: string): Promise<string | Error> {
       return await new Promise(resolve => resolve('hashed password'))
     }
   }
@@ -36,5 +36,16 @@ describe('DbAddAccount use case', () => {
     }
     await sut.add(accountData)
     expect(encryptSpy).toHaveBeenCalledWith('any_password')
+  })
+  test('should throw if encrypt throws', async () => {
+    const { sut, encryptStub } = makeSut()
+    jest.spyOn(encryptStub, 'hash').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const accountData: AddAccountModel = {
+      name: 'any_name',
+      password: 'any_password',
+      email: 'any_email@mail.com'
+    }
+    const promise = sut.add(accountData)
+    await expect(promise).rejects.toThrow()
   })
 })
