@@ -12,8 +12,8 @@ interface SutTypes {
   sut: Encrypt
 }
 
+const salt = 12
 const makeSut = (): SutTypes => {
-  const salt = 12
   const sut = new BCryptAdapter(salt)
   return {
     sut
