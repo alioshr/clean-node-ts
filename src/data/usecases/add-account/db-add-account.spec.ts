@@ -81,7 +81,8 @@ describe('DbAddAccount use case', () => {
   })
   test('should throw if AddUserRepository throws', async () => {
     const { sut, addUserRepositoryStub } = makeSut()
-    jest.spyOn(addUserRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(addUserRepositoryStub, 'add')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
     const accountData: AddAccountModel = {
       name: 'any_name',
       password: 'any_password',
