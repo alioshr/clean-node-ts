@@ -2,19 +2,22 @@ import { AddAccountModel } from '../../../domain/usecases/add-account'
 import { DbAddAccount } from './db-add-account'
 import { Encrypt } from '../../protocols/encrypt'
 
-class EncryptStub implements Encrypt {
-  async hash (password: string): Promise<string> {
-    return await new Promise(resolve => resolve('hashed password'))
+const makeEncrypter = (): Encrypt => {
+  class EncryptStub implements Encrypt {
+    async hash (password: string): Promise<string> {
+      return await new Promise(resolve => resolve('hashed password'))
+    }
   }
+  return new EncryptStub()
 }
 
 interface SutTypes {
   sut: DbAddAccount
-  encryptStub: EncryptStub
+  encryptStub: Encrypt
 }
 
 const makeSut = (): SutTypes => {
-  const encryptStub = new EncryptStub()
+  const encryptStub = makeEncrypter()
   const sut = new DbAddAccount(encryptStub)
   return {
     sut,
