@@ -1,2 +1,2 @@
 export * from './add-user-repository'
-export * from './encrypt'
+export * from './encrypter'
