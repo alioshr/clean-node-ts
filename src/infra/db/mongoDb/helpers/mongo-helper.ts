@@ -1,10 +1,12 @@
 import { Collection, MongoClient } from 'mongodb'
+import { AccountModel } from '../../../../domain/models/account'
 
 interface IMongoHelper {
   client: MongoClient | null
   connect: (uri: string) => Promise<void>
   disconnect: () => Promise<void>
   getCollection: (name: string) => Collection
+  map: (account: any) => AccountModel
 }
 
 export const MongoHelper: IMongoHelper = {
@@ -23,5 +25,10 @@ export const MongoHelper: IMongoHelper = {
 
   getCollection (name: string): Collection {
     return this.client.db().collection(name)
+  },
+
+  map: (collectionElement: any): any => {
+    const { _id, ...collectionElementWithoutId } = collectionElement
+    return Object.assign({}, collectionElementWithoutId, { id: _id })
   }
 }
