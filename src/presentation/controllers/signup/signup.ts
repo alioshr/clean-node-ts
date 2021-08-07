@@ -26,18 +26,23 @@ export class SignUpController implements Controller {
           return badRequest(new MissingParamError(field))
         }
       }
+
       const { name, email, password, confirmPassword } = httpRequest.body
+
       if (password !== confirmPassword) {
         return badRequest(new InvalidParamError('confirmPassword'))
       }
+
       const isValidMail = this.emailValidator.isValid(email)
       if (!isValidMail) {
         return badRequest(new InvalidParamError('email'))
       }
+
       const newAccount = await this.addAccount.add({ name, password, email })
+
       return ok(newAccount)
     } catch (err) {
       return serverError()
     }
-  }// ncrunch: no coverage
+  }
 }
