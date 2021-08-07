@@ -13,7 +13,7 @@ export const MongoHelper: IMongoHelper = {
   client: null,
 
   async connect (uri: string) {
-    this.client = await MongoClient.connect(process.env.MONGO_URL as string, {
+    this.client = await MongoClient.connect(uri, {
       useUnifiedTopology: true,
       useNewUrlParser: true
     })
