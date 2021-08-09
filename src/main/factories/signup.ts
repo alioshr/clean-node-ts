@@ -18,5 +18,9 @@ export const makeSignUpController = (): Controller => {
     emailValidatorAdapter,
     dbAddAccount
   )
-  return new LoggerControllerDecorator(signUpController)
+  return new LoggerControllerDecorator(signUpController, {
+    logError: async function (stack) {
+      return await Promise.resolve()
+    }
+  })
 }
