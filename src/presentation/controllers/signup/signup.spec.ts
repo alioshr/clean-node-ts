@@ -1,6 +1,7 @@
 import { SignUpController } from './signup'
-import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
+import { MissingParamError, InvalidParamError } from '../../errors'
 import { EmailValidator, AddAccount, AddAccountModel, AccountModel } from './signup-protocols'
+import { serverError } from '../../helpers/http-helper'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -144,9 +145,9 @@ describe('Auth Controller', () => {
   })
   test('should return 500 if emailValidator throws', async () => {
     const { sut, emailValidatorStub } = makeSut()
-
+    const error = new Error()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error()
+      throw error
     })
 
     const httpRequest = {
@@ -160,7 +161,7 @@ describe('Auth Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse).toEqual(serverError(error))
   })
   test('should return 400 if password and confirmPassword do not match', async () => {
     const { sut } = makeSut()
@@ -196,8 +197,9 @@ describe('Auth Controller', () => {
   })
   test('should return 500 if AddAccount throws', async () => {
     const { sut, addAccountStub } = makeSut()
+    const error = new Error()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
-      return await new Promise((resolve, reject) => reject(new Error()))
+      return await new Promise((resolve, reject) => reject(error))
     })
     const httpRequest = {
       body: {
@@ -209,7 +211,7 @@ describe('Auth Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse).toEqual(serverError(error))
   })
   test('Should return 200 if the proper data is provided', async () => {
     const { sut } = makeSut()
