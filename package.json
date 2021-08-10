@@ -12,7 +12,7 @@
     "test:ci": "npm test -- --coverage --no-cache"
   },
   "keywords": [],
-  "author": "",
+  "author": "Aliosh Romano Pimenta",
   "license": "ISC",
   "description": "",
   "devDependencies": {
