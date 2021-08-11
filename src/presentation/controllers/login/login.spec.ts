@@ -87,13 +87,6 @@ describe('Login Controller', () => {
     expect(httpResponse).toEqual(ok(httpResponse.body))
   })
 
-  test('Should call authAccount with correct params', async () => {
-    const { sut, emailValidatorStub } = makeSut()
-    const emailValidatorSpy = jest.spyOn(emailValidatorStub, 'isValid')
-    await sut.handle(makeFakeHttpRequest())
-    expect(emailValidatorSpy).toHaveBeenCalledWith(makeFakeHttpRequest().body.email)
-  })
-
   test('Should return 400 if email is invalid', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
@@ -115,5 +108,18 @@ describe('Login Controller', () => {
     jest.spyOn(authAccountStub, 'auth').mockImplementationOnce(() => { throw error })
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(serverError(error))
+  })
+
+  test('Should call authAccount with correct params', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    const emailValidatorSpy = jest.spyOn(emailValidatorStub, 'isValid')
+    await sut.handle(makeFakeHttpRequest())
+    expect(emailValidatorSpy).toHaveBeenCalledWith(makeFakeHttpRequest().body.email)
+  })
+
+  test('authAccount should return proper auth data on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(ok(makeFakeAuthAccount()))
   })
 })
