@@ -83,7 +83,7 @@ describe('Login Controller', () => {
   test('Should return 200 if data is placed correctly', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeHttpRequest())
-    expect(httpResponse).toEqual(ok(httpResponse.body))
+    expect(httpResponse).toEqual(ok(makeFakeAuthAccount()))
   })
 
   test('Should call EmailValidator with the correct params', async () => {
