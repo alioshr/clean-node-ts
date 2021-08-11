@@ -13,7 +13,7 @@ import { Validator } from '../../helpers/validators/validator'
 const makeValidatorStub = (): Validator => {
   class ValidatorStub implements Validator {
     async validate (data: any): Promise<Error | null> {
-      return await new Promise(resolve => resolve(null))
+      return await new Promise((resolve) => resolve(null))
     }
   }
   return new ValidatorStub()
@@ -64,7 +64,11 @@ const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const addAccountStub = makeAddAccount()
   const validatorStub = makeValidatorStub()
-  const sut = new SignUpController(emailValidatorStub, addAccountStub, validatorStub)
+  const sut = new SignUpController(
+    emailValidatorStub,
+    addAccountStub,
+    validatorStub
+  )
   return {
     sut,
     emailValidatorStub,
@@ -131,7 +135,9 @@ describe('Auth Controller', () => {
     }
 
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('confirmPassword')))
+    expect(httpResponse).toEqual(
+      badRequest(new MissingParamError('confirmPassword'))
+    )
   })
   test('should return 400 if an invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
@@ -180,7 +186,9 @@ describe('Auth Controller', () => {
     }
 
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('confirmPassword')))
+    expect(httpResponse).toEqual(
+      badRequest(new InvalidParamError('confirmPassword'))
+    )
   })
   test('should call add with the proper params', async () => {
     const { sut, addAccountStub } = makeSut()
@@ -210,9 +218,19 @@ describe('Auth Controller', () => {
 
   test('should call Validator with the proper params', async () => {
     const { sut, validatorStub } = makeSut()
-    const addSpy = jest.spyOn(validatorStub, 'validate')
+    const validatorSpy = jest.spyOn(validatorStub, 'validate')
     const httpRequest = makeFakeHttpRequest()
     await sut.handle(httpRequest)
-    expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validatorSpy).toHaveBeenCalledWith(httpRequest.body)
+  })
+
+  test('Sut should forward the same error returned by Validator if it throws', async () => {
+    const { sut, validatorStub } = makeSut()
+    const error = new MissingParamError('any_field')
+    jest
+      .spyOn(validatorStub, 'validate')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(error)))
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(badRequest(error))
   })
 })
