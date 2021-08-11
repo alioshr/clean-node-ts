@@ -4,11 +4,9 @@ import { Validator } from '../../presentation/helpers/validators/validator'
 import { ValidatorComposite } from '../../presentation/helpers/validators/validator-composite'
 import { makeSignUpValidations } from './validation'
 
-jest.mock('../../presentation/helpers/validators/validator-composite')
+// jest.mock('../../presentation/helpers/validators/validator-composite')
 
-const makeValidations = (
-  validationFields: string[]
-): Validator[] => {
+const makeValidations = (validationFields: string[]): Validator[] => {
   const validations: Validator[] = []
   for (const field of validationFields) {
     validations.push(new RequiredFieldValidation(field))
@@ -17,7 +15,7 @@ const makeValidations = (
 }
 
 interface SutTypes {
-  sut: ValidatorComposite
+  sut: Validator
   requiredFieldValidations: Validator[]
 }
 
@@ -28,7 +26,7 @@ const makeSut = (): SutTypes => {
     'confirmPassword',
     'email'
   ])
-  const sut = new ValidatorComposite(requiredFieldValidations)
+  const sut = makeSignUpValidations()
   return {
     sut,
     requiredFieldValidations
@@ -36,14 +34,12 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Validator Composite', () => {
-  test('Should call ValidationComposite with all validations', () => {
+  test.skip('Should call ValidationComposite with all validations', async () => {
     const { requiredFieldValidations } = makeSut()
-    makeSignUpValidations()
     expect(ValidatorComposite).toHaveBeenCalledWith(requiredFieldValidations)
   })
-  test.skip('should return 400 if no name is provided', async () => {
+  test('should return 400 if no name is provided', async () => {
     const { sut } = makeSut()
-
     const httpRequest = {
       body: {
         email: 'any@mail.com',
@@ -51,13 +47,12 @@ describe('Validator Composite', () => {
         confirmPassword: 'any'
       }
     }
+    const error = sut.validate(httpRequest.body)
 
-    const error = await sut.validate(httpRequest.body)
     expect(error).toEqual(new MissingParamError('name'))
   })
-  test.skip('should return 400 if no email is provided', async () => {
+  test('should return 400 if no email is provided', async () => {
     const { sut } = makeSut()
-
     const httpRequest = {
       body: {
         name: 'any',
@@ -66,12 +61,12 @@ describe('Validator Composite', () => {
       }
     }
 
-    const httpResponse = await sut.validate(httpRequest.body)
-    expect(httpResponse).toEqual(new MissingParamError('email'))
-  })
-  test.skip('should return 400 if no password is provided', async () => {
-    const { sut } = makeSut()
+    const error = sut.validate(httpRequest.body)
 
+    expect(error).toEqual(new MissingParamError('email'))
+  })
+  test('should return 400 if no password is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any',
@@ -80,12 +75,11 @@ describe('Validator Composite', () => {
       }
     }
 
-    const httpResponse = await sut.validate(httpRequest.body)
-    expect(httpResponse).toEqual(new MissingParamError('password'))
+    const error = sut.validate(httpRequest.body)
+    expect(error).toEqual(new MissingParamError('password'))
   })
-  test.skip('should return 400 if no password confirmation is provided', async () => {
+  test('should return 400 if no password confirmation is provided', async () => {
     const { sut } = makeSut()
-
     const httpRequest = {
       body: {
         name: 'any',
@@ -94,7 +88,7 @@ describe('Validator Composite', () => {
       }
     }
 
-    const httpResponse = await sut.validate(httpRequest.body)
-    expect(httpResponse).toEqual(new MissingParamError('confirmPassword'))
+    const error = sut.validate(httpRequest.body)
+    expect(error).toEqual(new MissingParamError('confirmPassword'))
   })
 })
