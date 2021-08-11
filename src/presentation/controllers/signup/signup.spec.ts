@@ -12,8 +12,8 @@ import { Validator } from '../../helpers/validators/validator'
 
 const makeValidatorStub = (): Validator => {
   class ValidatorStub implements Validator {
-    async validate (data: any): Promise<Error | null> {
-      return await new Promise((resolve) => resolve(null))
+    validate (data: any): Error | null {
+      return null
     }
   }
   return new ValidatorStub()
@@ -171,7 +171,7 @@ describe('Auth Controller', () => {
     const error = new MissingParamError('any_field')
     jest
       .spyOn(validatorStub, 'validate')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(error)))
+      .mockReturnValueOnce(error)
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(badRequest(error))
   })

@@ -8,7 +8,7 @@ export class RequiredFieldValidation implements Validator {
     this.fieldName = fieldName
   }
 
-  async validate (data: { [key: string]: string }): Promise<Error | null> {
+  validate (data: { [key: string]: string }): Error | null {
     if (!data[this.fieldName]) {
       return new MissingParamError(this.fieldName)
     }

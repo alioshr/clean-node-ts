@@ -1,3 +1,3 @@
 export interface Validator {
-  validate: (data: any) => Promise<Error | null>
+  validate: (data: any) => Error | null
 }

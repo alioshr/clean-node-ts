@@ -7,11 +7,11 @@ export class ValidatorComposite implements Validator {
     this.validations = validations
   }
 
-  async validate (data: any): Promise<Error | null> {
+  validate (data: any): Error | null {
     for (const validation of this.validations) {
       const error = validation.validate(data)
       if (error !== null) {
-        return await Promise.resolve(error) as Error
+        return error
       }
     }
     return null
