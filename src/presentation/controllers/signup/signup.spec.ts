@@ -116,22 +116,6 @@ describe('Auth Controller', () => {
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(serverError(error))
   })
-  test('should return 400 if password and confirmPassword do not match', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any',
-        email: 'invalid_mail@mail.com',
-        password: 'any',
-        confirmPassword: 'any1'
-      }
-    }
-
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(
-      badRequest(new InvalidParamError('confirmPassword'))
-    )
-  })
   test('should call add with the proper params', async () => {
     const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add')
