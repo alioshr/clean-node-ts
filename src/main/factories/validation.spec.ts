@@ -1,4 +1,4 @@
-import { MissingParamError } from '../../presentation/errors'
+import { InvalidParamError, MissingParamError } from '../../presentation/errors'
 import { RequiredFieldValidation } from '../../presentation/helpers/validators/required-field-validator'
 import { Validator } from '../../presentation/helpers/validators/validator'
 import { ValidatorComposite } from '../../presentation/helpers/validators/validator-composite'
@@ -38,7 +38,22 @@ describe('Validator Composite', () => {
     const { requiredFieldValidations } = makeSut()
     expect(ValidatorComposite).toHaveBeenCalledWith(requiredFieldValidations)
   })
-  test('should return 400 if no name is provided', async () => {
+  test('should return 400 if password and confirmPassword do not match', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any',
+        email: 'invalid_mail@mail.com',
+        password: 'any',
+        confirmPassword: 'any1'
+      }
+    }
+
+    const httpResponse = sut.validate(httpRequest.body)
+    expect(httpResponse).toEqual(new InvalidParamError('confirmPassword'))
+  })
+
+  test('should return 400 if no name is provided', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -51,7 +66,7 @@ describe('Validator Composite', () => {
 
     expect(error).toEqual(new MissingParamError('name'))
   })
-  test('should return 400 if no email is provided', async () => {
+  test('should return 400 if no email is provided', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -65,7 +80,7 @@ describe('Validator Composite', () => {
 
     expect(error).toEqual(new MissingParamError('email'))
   })
-  test('should return 400 if no password is provided', async () => {
+  test('should return 400 if no password is provided', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -78,7 +93,7 @@ describe('Validator Composite', () => {
     const error = sut.validate(httpRequest.body)
     expect(error).toEqual(new MissingParamError('password'))
   })
-  test('should return 400 if no password confirmation is provided', async () => {
+  test('should return 400 if no password confirmation is provided', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
