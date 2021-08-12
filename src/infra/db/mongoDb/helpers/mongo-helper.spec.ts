@@ -19,7 +19,7 @@ describe('Mongo Helper', () => {
     expect(connectSpy).toHaveBeenCalled()
     expect(connectSpy).toHaveBeenCalledWith(sut.uri)
   })
-  test('Should call client.db when mongodb connected', async () => {
+  test('Should not call connect in getCollection when mongodb is already connected', async () => {
     const accountCollection = await sut.getCollection('accounts')
     expect(accountCollection).toBeTruthy()
 
