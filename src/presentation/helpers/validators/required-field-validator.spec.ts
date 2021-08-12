@@ -65,4 +65,18 @@ describe('Required Email Validator', () => {
     const error = sut.validate(httpRequest.body)
     expect(error).toEqual(new MissingParamError('confirmPassword'))
   })
+
+  test('Should return null on if validation is a success', () => {
+    const { sut } = makeSut('confirmPassword')
+    const httpRequest = {
+      body: {
+        name: 'any',
+        email: 'any@mail.com',
+        password: 'any',
+        confirmPassword: 'any'
+      }
+    }
+    const error = sut.validate(httpRequest.body)
+    expect(error).toEqual(null)
+  })
 })
