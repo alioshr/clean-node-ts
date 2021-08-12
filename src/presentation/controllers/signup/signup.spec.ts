@@ -7,7 +7,7 @@ import {
 } from './signup-protocols'
 import { badRequest, ok, serverError } from '../../helpers/http-helper'
 import { HttpRequest } from '../../protocols'
-import { Validator } from '../../helpers/validators/validator'
+import { Validator } from '../../protocols/validator'
 
 const makeValidatorStub = (): Validator => {
   class ValidatorStub implements Validator {
