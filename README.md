@@ -1,6 +1,6 @@
 # clean-node-ts
 
-An API being written following the following principles & patterns: 
+An API being written with the following principles & patterns: 
 
 - SOLID
 - Clean Architecture
