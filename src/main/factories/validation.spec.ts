@@ -3,10 +3,19 @@ import { EmailValidation } from '../../presentation/helpers/validators/email-val
 import { RequiredFieldValidation } from '../../presentation/helpers/validators/required-field-validator'
 import { Validator } from '../../presentation/protocols/validator'
 import { ValidatorComposite } from '../../presentation/helpers/validators/validator-composite'
-import { EmailValidatorAdapter } from '../../utils/email-validator-adapter'
 import { makeSignUpValidations } from './validation'
+import { EmailValidator } from '../../presentation/protocols/emailValidator'
 
 jest.mock('../../presentation/helpers/validators/validator-composite')
+
+const makeEmailValidator = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid (email: string): boolean {
+      return true
+    }
+  }
+  return new EmailValidatorStub()
+}
 
 const makeValidations = (validationFields: string[]): Validator[] => {
   const validations: Validator[] = []
@@ -14,7 +23,7 @@ const makeValidations = (validationFields: string[]): Validator[] => {
     validations.push(new RequiredFieldValidation(field))
   }
   validations.push(new CompareFieldsValidation('password', 'confirmPassword'))
-  const emailValidatorAdapter = new EmailValidatorAdapter()
+  const emailValidatorAdapter = makeEmailValidator()
   const emailValidation = new EmailValidation(emailValidatorAdapter, 'email')
   validations.push(emailValidation)
 
