@@ -29,16 +29,11 @@ describe('EmailValidation', () => {
 
     const emailValidatorSpy = jest.spyOn(emailValidatorStub, 'isValid')
 
-    const httpRequest = {
-      body: {
-        name: 'any',
-        email: 'correct_email@mail.com',
-        password: 'any',
-        confirmPassword: 'any'
-      }
+    const data = {
+      email: 'correct_email@mail.com'
     }
 
-    sut.validate(httpRequest.body)
+    sut.validate(data)
     expect(emailValidatorSpy).toHaveBeenCalledWith('correct_email@mail.com')
   })
   test('should return 400 if an invalid email is provided', () => {
@@ -46,30 +41,21 @@ describe('EmailValidation', () => {
 
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
 
-    const httpRequest = {
-      body: {
-        name: 'any',
-        email: 'invalid_mail',
-        password: 'any',
-        confirmPassword: 'any'
-      }
+    const data = {
+      email: 'invalid_mail'
     }
 
-    const httpResponse = sut.validate(httpRequest.body)
+    const httpResponse = sut.validate(data)
     expect(httpResponse).toEqual(new InvalidParamError('email'))
   })
   test('should return null with valid email', () => {
     const { sut } = makeSut()
 
-    const httpRequest = {
-      body: {
-        name: 'any',
-        email: 'invalid_mail@mail.com',
-        password: 'any',
-        confirmPassword: 'any'
-      }
+    const data = {
+      email: 'invalid_mail@mail.com'
     }
-    const httpResponse = sut.validate(httpRequest.body)
+
+    const httpResponse = sut.validate(data)
     expect(httpResponse).toEqual(null)
   })
   test('should return 500 if emailValidator throws', () => {
@@ -79,16 +65,12 @@ describe('EmailValidation', () => {
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw error
     })
-    const httpRequest = {
-      body: {
-        name: 'any',
-        email: 'invalid_mail@mail.com',
-        password: 'any',
-        confirmPassword: 'any'
-      }
+
+    const data = {
+      email: 'invalid_mail@mail.com'
     }
 
-    const errorResponse = sut.validate(httpRequest.body)
+    const errorResponse = sut.validate(data)
     expect(errorResponse).toEqual(new ServerError('error_stack'))
   })
 })
