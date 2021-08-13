@@ -24,6 +24,23 @@ const makeSut = (): SutTypes => {
 }
 
 describe('EmailValidation', () => {
+  test('should call EmailValidation with correct email', () => {
+    const { sut, emailValidatorStub } = makeSut()
+
+    const emailValidatorSpy = jest.spyOn(emailValidatorStub, 'isValid')
+
+    const httpRequest = {
+      body: {
+        name: 'any',
+        email: 'correct_email@mail.com',
+        password: 'any',
+        confirmPassword: 'any'
+      }
+    }
+
+    sut.validate(httpRequest.body)
+    expect(emailValidatorSpy).toHaveBeenCalledWith('correct_email@mail.com')
+  })
   test('should return 400 if an invalid email is provided', () => {
     const { sut, emailValidatorStub } = makeSut()
 
