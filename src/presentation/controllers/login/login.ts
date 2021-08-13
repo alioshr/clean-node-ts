@@ -1,12 +1,10 @@
+import { Validator } from '../../protocols/validator'
 import {
   Controller,
   AuthAccount,
-  EmailValidator,
   HttpRequest,
   HttpResponse,
   badRequest,
-  MissingParamError,
-  InvalidParamError,
   unauthorized,
   serverError,
   ok
@@ -15,21 +13,14 @@ import {
 export class LoginController implements Controller {
   constructor (
     private readonly authAccount: AuthAccount,
-    private readonly emailValidator: EmailValidator
+    private readonly validator: Validator
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const bodyFields = ['email', 'password']
-      for (const field of bodyFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
-      }
-
-      const isEmailValid = this.emailValidator.isValid(httpRequest.body.email)
-      if (!isEmailValid) {
-        return badRequest(new InvalidParamError('email'))
+      const error = this.validator.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
       }
 
       const credentials = await this.authAccount.auth(httpRequest.body)
