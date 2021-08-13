@@ -1,4 +1,4 @@
-import { InvalidParamError, ServerError } from '../../errors'
+import { InvalidParamError } from '../../errors'
 import { EmailValidator } from '../../protocols/emailValidator'
 import { EmailValidation } from './email-validation'
 
@@ -58,19 +58,12 @@ describe('EmailValidation', () => {
     const httpResponse = sut.validate(data)
     expect(httpResponse).toEqual(null)
   })
-  test('should return 500 if emailValidator throws', () => {
+  test('should throw if emailValidator throws', () => {
     const { sut, emailValidatorStub } = makeSut()
-    const error = new Error()
-    error.stack = 'error_stack'
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw error
+      throw new Error()
     })
 
-    const data = {
-      email: 'invalid_mail@mail.com'
-    }
-
-    const errorResponse = sut.validate(data)
-    expect(errorResponse).toEqual(new ServerError('error_stack'))
+    expect(sut.validate).toThrow()
   })
 })
