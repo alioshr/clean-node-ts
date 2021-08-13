@@ -45,8 +45,8 @@ describe('EmailValidation', () => {
       email: 'invalid_mail'
     }
 
-    const httpResponse = sut.validate(data)
-    expect(httpResponse).toEqual(new InvalidParamError('email'))
+    const error = sut.validate(data)
+    expect(error).toEqual(new InvalidParamError('email'))
   })
   test('should return null with valid email', () => {
     const { sut } = makeSut()
@@ -55,8 +55,8 @@ describe('EmailValidation', () => {
       email: 'invalid_mail@mail.com'
     }
 
-    const httpResponse = sut.validate(data)
-    expect(httpResponse).toEqual(null)
+    const error = sut.validate(data)
+    expect(error).toEqual(null)
   })
   test('should throw if emailValidator throws', () => {
     const { sut, emailValidatorStub } = makeSut()
