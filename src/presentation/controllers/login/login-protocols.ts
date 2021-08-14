@@ -1,7 +1,3 @@
 export * from '../../../domain/models/auth'
 export * from '../../../domain/usecases/auth-account'
-export * from '../../errors'
-export * from '../../helpers/http-helper'
-export * from '../../protocols'
 export * from '../signup/signup-protocols'
-export * from './login'

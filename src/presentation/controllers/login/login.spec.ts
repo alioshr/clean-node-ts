@@ -1,16 +1,18 @@
-import { Validator } from '../../protocols/validator'
+import { MissingParamError } from '../../errors'
 import {
-  ok,
+  badRequest,
+  serverError,
+  unauthorized,
+  ok
+} from '../../helpers/http/http-helper'
+import { Validator } from '../../protocols'
+import { LoginController } from './login'
+import {
   HttpRequest,
   AuthResponseData,
   AuthAccount,
   AuthAccountModel,
-  Controller,
-  LoginController,
-  badRequest,
-  MissingParamError,
-  serverError,
-  unauthorized
+  Controller
 } from './login-protocols'
 
 const makeValidatorStub = (): Validator => {

@@ -5,7 +5,7 @@ import {
   AddAccountModel,
   AccountModel
 } from './signup-protocols'
-import { badRequest, ok, serverError } from '../../helpers/http-helper'
+import { badRequest, ok, serverError } from '../../helpers/http/http-helper'
 import { HttpRequest } from '../../protocols'
 import { Validator } from '../../protocols/validator'
 
