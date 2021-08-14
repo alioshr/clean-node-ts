@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { ILogErrorRepository } from '../../../../data/protocols/log-error-repository'
+import { ILogErrorRepository } from '../../../../data/protocols/db/log-error-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { LogMongoRepository } from './log'
 

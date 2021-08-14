@@ -1,6 +1,6 @@
 import { AuthResponseData } from '../../../domain/models/auth'
 import { AuthAccount, AuthAccountModel } from '../../../domain/usecases/auth-account'
-import { LoadAccountRepository } from '../../protocols/load-account-by-email'
+import { LoadAccountRepository } from '../../protocols/db/load-account-by-email'
 
 export class DbAuthAccount implements AuthAccount {
   constructor (private readonly loadAccount: LoadAccountRepository) {}
