@@ -68,9 +68,7 @@ describe('Login Controller', () => {
   test('Sut should forward the same error returned by Validator if it throws', async () => {
     const { sut, validatorStub } = makeSut()
     const error = new MissingParamError('any_field')
-    jest
-      .spyOn(validatorStub, 'validate')
-      .mockReturnValueOnce(error)
+    jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(error)
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(badRequest(error))
   })
