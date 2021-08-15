@@ -45,12 +45,21 @@ describe('DbAuthentication UseCase', () => {
     await sut.auth(makeFakeAccountModel())
     expect(loadAccountSpy).toHaveBeenCalledWith(makeFakeAccountModel().email)
   })
-  test.skip('Must return 400 if account is not found', async () => {
+  test('Must return null if account is not found', async () => {
     const { sut, loadAccountStub } = makeSut()
     jest
       .spyOn(loadAccountStub, 'load')
       .mockReturnValueOnce(Promise.resolve(null))
     const authResult = await sut.auth(makeFakeAccountModel())
-    expect(authResult).toEqual({})
+    expect(authResult).toEqual(null)
+  })
+
+  test('should throw if LoadAccountRepository throws', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    jest
+      .spyOn(loadAccountStub, 'load')
+      .mockReturnValueOnce(Promise.reject(new Error()))
+    const promise = sut.auth(makeFakeAccountModel())
+    await expect(promise).rejects.toThrow()
   })
 })
