@@ -6,13 +6,15 @@ import {
 import { HashComparer } from '../../protocols/cryptography/hash-comparer'
 import { TokenCreator } from '../../protocols/cryptography/token-creator'
 import { LoadAccountRepository } from '../../protocols/db/load-account-by-email'
+import { UpdateAccessTokenRepository } from '../../protocols/db/update-access-token-repository'
 import { AccountModel } from '../add-account/db-add-account-protocols'
 
 export class DbAuthAccount implements AuthAccount {
   constructor (
     private readonly loadAccount: LoadAccountRepository,
     private readonly decrypt: HashComparer,
-    private readonly tokenCreator: TokenCreator
+    private readonly tokenCreator: TokenCreator,
+    private readonly updateAccessToken: UpdateAccessTokenRepository
   ) {}
 
   async auth (
@@ -33,6 +35,8 @@ export class DbAuthAccount implements AuthAccount {
       name: (account as AccountModel).name,
       id: (account as AccountModel).id
     })
+
+    await this.updateAccessToken.updateToken({ token: (token as string), id: (account as AccountModel).id })
     return { userId: (account as AccountModel).id, token: token as string }
   }
 }
