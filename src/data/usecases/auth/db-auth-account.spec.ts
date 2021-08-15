@@ -1,3 +1,4 @@
+import { AuthResponseData } from '../../../domain/models/auth'
 import {
   AuthAccount,
   AuthAccountModel
@@ -7,6 +8,13 @@ import { TokenCreator } from '../../protocols/cryptography/token-creator'
 import { LoadAccountRepository } from '../../protocols/db/load-account-by-email'
 import { AccountModel } from '../add-account/db-add-account-protocols'
 import { DbAuthAccount } from './db-auth-accounts'
+
+const GENERATED_TOKEN = 'valid_token'
+
+const makeAuthResponseData = (): AuthResponseData => ({
+  userId: makeFakeAccount().id,
+  token: GENERATED_TOKEN
+})
 
 const makeFakeAccount = (): AccountModel => ({
   email: 'any_email@mail.com',
@@ -41,7 +49,7 @@ const makeHashComparer = (): HashComparer => {
 const makeTokenCreator = (): TokenCreator => {
   class TokenCreatorStub implements TokenCreator {
     create (data: { id: string, name: string }): string {
-      return 'valid_token'
+      return GENERATED_TOKEN
     }
   }
   return new TokenCreatorStub()
@@ -127,5 +135,10 @@ describe('DbAuthentication UseCase', () => {
       .mockImplementationOnce(() => { throw new Error() })
     const promise = sut.auth(makeFakeAccountModel())
     await expect(promise).rejects.toThrow()
+  })
+  test('should return an AccountModel on success', async () => {
+    const { sut } = makeSut()
+    const authData = await sut.auth(makeFakeAccountModel())
+    expect(authData).toEqual(makeAuthResponseData())
   })
 })
