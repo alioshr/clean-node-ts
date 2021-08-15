@@ -80,10 +80,20 @@ describe('DbAuthentication UseCase', () => {
     await sut.auth(makeFakeAccountModel())
     expect(decryptSpy).toHaveBeenCalledWith(makeFakeAccountModel().password)
   })
-  test.skip('must throw if Decrypt throws', async () => {
-
+  test('must throw if Decrypt throws', async () => {
+    const { sut, decrypt } = makeSut()
+    jest
+      .spyOn(decrypt, 'compare')
+      .mockReturnValueOnce(Promise.reject(new Error()))
+    const promise = sut.auth(makeFakeAccountModel())
+    await expect(promise).rejects.toThrow()
   })
-  test.skip('must return null if Decrypt passwords do not match', async () => {
-
+  test('must return null if Decrypt passwords do not match', async () => {
+    const { sut, decrypt } = makeSut()
+    jest
+      .spyOn(decrypt, 'compare')
+      .mockReturnValueOnce(Promise.resolve(false))
+    const authResult = await sut.auth(makeFakeAccountModel())
+    expect(authResult).toBeFalsy()
   })
 })
