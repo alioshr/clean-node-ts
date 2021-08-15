@@ -86,7 +86,7 @@ describe('DbAuthentication UseCase', () => {
     const authResult = await sut.auth(makeFakeAccountModel())
     expect(authResult).toBeNull()
   })
-  test('must call Decrypt with the correct params', async () => {
+  test('must call HashComparer with the correct params', async () => {
     const { sut, hashComparer } = makeSut()
     const hashComparerSpy = jest.spyOn(hashComparer, 'compare')
     await sut.auth(makeFakeAccountModel())
@@ -95,7 +95,7 @@ describe('DbAuthentication UseCase', () => {
       makeFakeAccount().password
     )
   })
-  test('must throw if Decrypt throws', async () => {
+  test('must throw if HashComparer throws', async () => {
     const { sut, hashComparer } = makeSut()
     jest
       .spyOn(hashComparer, 'compare')
@@ -103,7 +103,7 @@ describe('DbAuthentication UseCase', () => {
     const promise = sut.auth(makeFakeAccountModel())
     await expect(promise).rejects.toThrow()
   })
-  test('must return null if Decrypt passwords do not match', async () => {
+  test('must return null if HashComparer passwords do not match', async () => {
     const { sut, hashComparer } = makeSut()
     jest
       .spyOn(hashComparer, 'compare')
