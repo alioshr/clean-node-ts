@@ -6,5 +6,5 @@ export interface AuthAccountModel {
 }
 
 export interface AuthAccount {
-  auth: (authData: AuthAccountModel) => Promise<AuthResponseData | Error>
+  auth: (authData: AuthAccountModel) => Promise<AuthResponseData | Error | null>
 }
