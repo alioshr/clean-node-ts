@@ -29,10 +29,10 @@ export class DbAuthAccount implements AuthAccount {
     if (!isValid) {
       return null
     }
-    this.tokenCreator.create({
+    const token = this.tokenCreator.create({
       name: (account as AccountModel).name,
       id: (account as AccountModel).id
     })
-    return await Promise.resolve({ userId: 'a', token: 'a' })
+    return { userId: (account as AccountModel).id, token: token as string }
   }
 }
