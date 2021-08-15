@@ -14,7 +14,10 @@ export class DbAuthAccount implements AuthAccount {
     if (!account) {
       return null
     }
-    await this.decrypt.compare(authData.password)
+    const isValid = await this.decrypt.compare(authData.password)
+    if (!isValid) {
+      return null
+    }
     return await Promise.resolve({ userId: 'a', token: 'a' })
   }
 }
