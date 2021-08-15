@@ -2,7 +2,8 @@ import {
   AuthAccount,
   AuthAccountModel
 } from '../../../domain/usecases/auth-account'
-import { Decrypt } from '../../protocols/cryptography/decrypter'
+import { HashComparer } from '../../protocols/cryptography/hash-comparer'
+import { TokenCreator } from '../../protocols/cryptography/token-creator'
 import { LoadAccountRepository } from '../../protocols/db/load-account-by-email'
 import { AccountModel } from '../add-account/db-add-account-protocols'
 import { DbAuthAccount } from './db-auth-accounts'
@@ -11,7 +12,7 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'any_email@mail.com',
   id: 'any_id',
   name: 'any_name',
-  password: 'any_password'
+  password: 'hashed_password'
 })
 
 const makeFakeAccountModel = (): AuthAccountModel => ({
@@ -28,26 +29,37 @@ const makeLoadAccount = (): LoadAccountRepository => {
   return new LoadAccountStub()
 }
 
-const makeDecrypt = (): Decrypt => {
-  class DecryptStub implements Decrypt {
-    async compare (password: string): Promise<boolean> {
-      return await new Promise(resolve => resolve(true))
+const makeHashComparer = (): HashComparer => {
+  class HashComparerStub implements HashComparer {
+    async compare (value: string, hash: string): Promise<boolean> {
+      return await new Promise((resolve) => resolve(true))
     }
   }
-  return new DecryptStub()
+  return new HashComparerStub()
+}
+
+const makeTokenCreator = (): TokenCreator => {
+  class TokenCreatorStub implements TokenCreator {
+    create (data: { id: string, name: string }): string {
+      return 'valid_token'
+    }
+  }
+  return new TokenCreatorStub()
 }
 
 interface SutTypes {
   sut: AuthAccount
   loadAccountStub: LoadAccountRepository
-  decrypt: Decrypt
+  hashComparer: HashComparer
+  tokenCreator: TokenCreator
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountStub = makeLoadAccount()
-  const decrypt = makeDecrypt()
-  const sut = new DbAuthAccount(loadAccountStub, decrypt)
-  return { sut, loadAccountStub, decrypt }
+  const hashComparer = makeHashComparer()
+  const tokenCreator = makeTokenCreator()
+  const sut = new DbAuthAccount(loadAccountStub, hashComparer, tokenCreator)
+  return { sut, loadAccountStub, hashComparer, tokenCreator }
 }
 
 describe('DbAuthentication UseCase', () => {
@@ -75,25 +87,45 @@ describe('DbAuthentication UseCase', () => {
     expect(authResult).toBeNull()
   })
   test('must call Decrypt with the correct params', async () => {
-    const { sut, decrypt } = makeSut()
-    const decryptSpy = jest.spyOn(decrypt, 'compare')
+    const { sut, hashComparer } = makeSut()
+    const hashComparerSpy = jest.spyOn(hashComparer, 'compare')
     await sut.auth(makeFakeAccountModel())
-    expect(decryptSpy).toHaveBeenCalledWith(makeFakeAccountModel().password)
+    expect(hashComparerSpy).toHaveBeenCalledWith(
+      makeFakeAccountModel().password,
+      makeFakeAccount().password
+    )
   })
   test('must throw if Decrypt throws', async () => {
-    const { sut, decrypt } = makeSut()
+    const { sut, hashComparer } = makeSut()
     jest
-      .spyOn(decrypt, 'compare')
+      .spyOn(hashComparer, 'compare')
       .mockReturnValueOnce(Promise.reject(new Error()))
     const promise = sut.auth(makeFakeAccountModel())
     await expect(promise).rejects.toThrow()
   })
   test('must return null if Decrypt passwords do not match', async () => {
-    const { sut, decrypt } = makeSut()
+    const { sut, hashComparer } = makeSut()
     jest
-      .spyOn(decrypt, 'compare')
+      .spyOn(hashComparer, 'compare')
       .mockReturnValueOnce(Promise.resolve(false))
     const authResult = await sut.auth(makeFakeAccountModel())
     expect(authResult).toBeFalsy()
+  })
+  test('should call TokenCreator with the correct params', async () => {
+    const { sut, tokenCreator } = makeSut()
+    const tokenCreatorSpy = jest.spyOn(tokenCreator, 'create')
+    await sut.auth(makeFakeAccountModel())
+    expect(tokenCreatorSpy).toHaveBeenCalledWith({
+      name: makeFakeAccount().name,
+      id: makeFakeAccount().id
+    })
+  })
+  test('should throw if TokenCreator throws', async () => {
+    const { sut, tokenCreator } = makeSut()
+    jest
+      .spyOn(tokenCreator, 'create')
+      .mockImplementationOnce(() => { throw new Error() })
+    const promise = sut.auth(makeFakeAccountModel())
+    await expect(promise).rejects.toThrow()
   })
 })
