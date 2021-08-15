@@ -1,3 +1,3 @@
 export interface Decrypt {
-  validate: (password: string) => Promise<boolean>
+  compare: (password: string) => Promise<boolean>
 }
