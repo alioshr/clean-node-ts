@@ -2,6 +2,7 @@ import {
   AuthAccount,
   AuthAccountModel
 } from '../../../domain/usecases/auth-account'
+import { Decrypt } from '../../protocols/cryptography/decrypter'
 import { LoadAccountRepository } from '../../protocols/db/load-account-by-email'
 import { AccountModel } from '../add-account/db-add-account-protocols'
 import { DbAuthAccount } from './db-auth-accounts'
@@ -27,15 +28,26 @@ const makeLoadAccount = (): LoadAccountRepository => {
   return new LoadAccountStub()
 }
 
+const makeDecrypt = (): Decrypt => {
+  class DecryptStub implements Decrypt {
+    async compare (password: string): Promise<boolean> {
+      return await new Promise(resolve => resolve(true))
+    }
+  }
+  return new DecryptStub()
+}
+
 interface SutTypes {
   sut: AuthAccount
   loadAccountStub: LoadAccountRepository
+  decrypt: Decrypt
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountStub = makeLoadAccount()
-  const sut = new DbAuthAccount(loadAccountStub)
-  return { sut, loadAccountStub }
+  const decrypt = makeDecrypt()
+  const sut = new DbAuthAccount(loadAccountStub, decrypt)
+  return { sut, loadAccountStub, decrypt }
 }
 
 describe('DbAuthentication UseCase', () => {
@@ -45,15 +57,6 @@ describe('DbAuthentication UseCase', () => {
     await sut.auth(makeFakeAccountModel())
     expect(loadAccountSpy).toHaveBeenCalledWith(makeFakeAccountModel().email)
   })
-  test('Must return null if account is not found', async () => {
-    const { sut, loadAccountStub } = makeSut()
-    jest
-      .spyOn(loadAccountStub, 'load')
-      .mockReturnValueOnce(Promise.resolve(null))
-    const authResult = await sut.auth(makeFakeAccountModel())
-    expect(authResult).toEqual(null)
-  })
-
   test('should throw if LoadAccountRepository throws', async () => {
     const { sut, loadAccountStub } = makeSut()
     jest
@@ -61,5 +64,26 @@ describe('DbAuthentication UseCase', () => {
       .mockReturnValueOnce(Promise.reject(new Error()))
     const promise = sut.auth(makeFakeAccountModel())
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Must return null if account is not found', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    jest
+      .spyOn(loadAccountStub, 'load')
+      .mockReturnValueOnce(Promise.resolve(null))
+    const authResult = await sut.auth(makeFakeAccountModel())
+    expect(authResult).toBeNull()
+  })
+  test('must call Decrypt with the correct params', async () => {
+    const { sut, decrypt } = makeSut()
+    const decryptSpy = jest.spyOn(decrypt, 'compare')
+    await sut.auth(makeFakeAccountModel())
+    expect(decryptSpy).toHaveBeenCalledWith(makeFakeAccountModel().password)
+  })
+  test.skip('must throw if Decrypt throws', async () => {
+
+  })
+  test.skip('must return null if Decrypt passwords do not match', async () => {
+
   })
 })
