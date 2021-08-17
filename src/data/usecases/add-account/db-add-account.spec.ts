@@ -1,18 +1,18 @@
 import {
   AddAccountModel,
-  Encrypt,
+  Hasher,
   AccountModel,
   AddUserRepository
 } from './db-add-account-protocols'
 import { DbAddAccount } from './db-add-account'
 
-const makeEncrypter = (): Encrypt => {
-  class EncryptStub implements Encrypt {
+const makeHasher = (): Hasher => {
+  class HasherStub implements Hasher {
     async hash (password: string): Promise<string> {
       return await new Promise((resolve) => resolve('hashed password'))
     }
   }
-  return new EncryptStub()
+  return new HasherStub()
 }
 
 const makeAddUser = (): AddUserRepository => {
@@ -36,32 +36,32 @@ const makeFakeAccount = (): AccountModel => ({
 })
 interface SutTypes {
   sut: DbAddAccount
-  encryptStub: Encrypt
+  hasherStub: Hasher
   addUserRepositoryStub: AddUserRepository
 }
 
 const makeSut = (): SutTypes => {
-  const encryptStub = makeEncrypter()
+  const hasherStub = makeHasher()
   const addUserRepositoryStub = makeAddUser()
-  const sut = new DbAddAccount(encryptStub, addUserRepositoryStub)
+  const sut = new DbAddAccount(hasherStub, addUserRepositoryStub)
   return {
     sut,
-    encryptStub,
+    hasherStub,
     addUserRepositoryStub
   }
 }
 
 describe('DbAddAccount use case', () => {
   test('should call hash with the correct password', async () => {
-    const { sut, encryptStub } = makeSut()
-    const encryptSpy = jest.spyOn(encryptStub, 'hash')
+    const { sut, hasherStub } = makeSut()
+    const hasherSpy = jest.spyOn(hasherStub, 'hash')
     await sut.add(makeFakeAccountData())
-    expect(encryptSpy).toHaveBeenCalledWith('any_password')
+    expect(hasherSpy).toHaveBeenCalledWith('any_password')
   })
-  test('should throw if encrypt throws', async () => {
-    const { sut, encryptStub } = makeSut()
+  test('should throw if hasher throws', async () => {
+    const { sut, hasherStub } = makeSut()
     jest
-      .spyOn(encryptStub, 'hash')
+      .spyOn(hasherStub, 'hash')
       .mockReturnValueOnce(
         new Promise((resolve, reject) => reject(new Error()))
       )
