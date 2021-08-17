@@ -6,7 +6,7 @@ import {
 } from './db-auth-account-protocols'
 import {
   HashComparer,
-  TokenCreator,
+  Encrypter,
   LoadAccountRepository,
   UpdateAccessTokenRepository
 } from '../../protocols'
@@ -15,7 +15,7 @@ export class DbAuthAccount implements AuthAccount {
   constructor (
     private readonly loadAccount: LoadAccountRepository,
     private readonly decrypt: HashComparer,
-    private readonly tokenCreator: TokenCreator,
+    private readonly encrypter: Encrypter,
     private readonly updateAccessToken: UpdateAccessTokenRepository
   ) {}
 
@@ -33,7 +33,7 @@ export class DbAuthAccount implements AuthAccount {
     if (!isValid) {
       return null
     }
-    const token = this.tokenCreator.create({
+    const token = this.encrypter.encrypt({
       name: (account as AccountModel).name,
       id: (account as AccountModel).id
     })
