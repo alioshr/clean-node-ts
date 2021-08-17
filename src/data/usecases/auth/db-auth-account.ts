@@ -1,13 +1,15 @@
-import { AuthResponseData } from '../../../domain/models/auth'
 import {
+  AuthResponseData,
+  AccountModel,
   AuthAccount,
   AuthAccountModel
-} from '../../../domain/usecases/auth-account'
-import { HashComparer } from '../../protocols/cryptography/hash-comparer'
-import { TokenCreator } from '../../protocols/cryptography/token-creator'
-import { LoadAccountRepository } from '../../protocols/db/load-account-by-email'
-import { UpdateAccessTokenRepository } from '../../protocols/db/update-access-token-repository'
-import { AccountModel } from '../add-account/db-add-account-protocols'
+} from './db-auth-account-protocols'
+import {
+  HashComparer,
+  TokenCreator,
+  LoadAccountRepository,
+  UpdateAccessTokenRepository
+} from '../../protocols'
 
 export class DbAuthAccount implements AuthAccount {
   constructor (
@@ -36,7 +38,10 @@ export class DbAuthAccount implements AuthAccount {
       id: (account as AccountModel).id
     })
 
-    await this.updateAccessToken.updateToken({ token: (token as string), id: (account as AccountModel).id })
+    await this.updateAccessToken.updateToken({
+      token: token as string,
+      id: (account as AccountModel).id
+    })
     return { userId: (account as AccountModel).id, token: token as string }
   }
 }
