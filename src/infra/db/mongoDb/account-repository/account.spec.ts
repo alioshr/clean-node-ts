@@ -30,4 +30,12 @@ describe('Account Mongo Repository', () => {
     expect(account.email).toBe('any_email@test.com')
     expect(account.password).toBe('any_password')
   })
+  test('Should return void on success on updateToken', async () => {
+    const sut = makeSut()
+    const result = await sut.updateToken({
+      id: 'vali_id',
+      token: 'valid Token'
+    })
+    expect(result).toBeFalsy()
+  })
 })
