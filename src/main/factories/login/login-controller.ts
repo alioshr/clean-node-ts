@@ -1,6 +1,6 @@
 import { DbAuthAccount } from '../../../data/usecases/auth/db-auth-account'
-import { BCryptAdapter } from '../../../infra/cryptography/bcrypt-adapter'
-import { JWTAdapter } from '../../../infra/cryptography/jwt-adapter'
+import { BCryptAdapter } from '../../../infra/cryptography/bcrypt-adapter/bcrypt-adapter'
+import { JWTAdapter } from '../../../infra/cryptography/jwt-adapter/jwt-adapter'
 import { AccountMongoRepository } from '../../../infra/db/mongodb/account-repository/account'
 import { LoginController } from '../../../presentation/controllers/login/login'
 import { Controller } from '../../../presentation/protocols'
