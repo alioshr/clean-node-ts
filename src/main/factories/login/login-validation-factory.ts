@@ -13,7 +13,7 @@ const makeValidations = (): Validator[] => {
   return validations
 }
 
-export const makeLoginValidations = (): Validator => {
+export const makeLoginValidationComposite = (): Validator => {
   return new ValidatorComposite(
     makeValidations()
   )

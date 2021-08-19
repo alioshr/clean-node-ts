@@ -6,7 +6,7 @@ import { LogMongoRepository } from '../../../infra/db/mongodb/log/log-mongo-repo
 import { LoginController } from '../../../presentation/controllers/login/login-controller'
 import { Controller } from '../../../presentation/protocols'
 import { LoggerControllerDecorator } from '../../decorators/log-controller-decorator'
-import { makeLoginValidations } from './login-validation-factory'
+import { makeLoginValidationComposite } from './login-validation-factory'
 
 export const makeLoginController = (): Controller => {
   const accountRepository = new AccountMongoRepository()
@@ -19,7 +19,7 @@ export const makeLoginController = (): Controller => {
     accountRepository
   )
   const logMongoRepository = new LogMongoRepository()
-  const loginController = new LoginController(authAccount, makeLoginValidations())
+  const loginController = new LoginController(authAccount, makeLoginValidationComposite())
 
   return new LoggerControllerDecorator(loginController, logMongoRepository)
 }

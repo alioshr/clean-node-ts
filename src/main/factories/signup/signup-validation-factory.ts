@@ -14,7 +14,7 @@ const makeValidations = (): Validator[] => {
   return validations
 }
 
-export const makeSignUpValidations = (): Validator => {
+export const makeSignUpValidationComposite = (): Validator => {
   return new ValidatorComposite(
     makeValidations()
   )
