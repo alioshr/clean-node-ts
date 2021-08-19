@@ -1,3 +1,4 @@
+import { AccountModel } from '../../../../domain/models/account'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account'
 
@@ -37,5 +38,19 @@ describe('Account Mongo Repository', () => {
       token: 'valid Token'
     })
     expect(result).toBeFalsy()
+  })
+  test('Should return a correct account on load method', async () => {
+    const sut = makeSut()
+    await sut.add({
+      name: 'any_name',
+      email: 'any_email@test.com',
+      password: 'any_password'
+    })
+    const loadedAccount = await sut.load('any_email@test.com')
+
+    expect((loadedAccount as AccountModel).id).toBeTruthy()
+    expect((loadedAccount as AccountModel).name).toBe('any_name')
+    expect((loadedAccount as AccountModel).email).toBe('any_email@test.com')
+    expect((loadedAccount as AccountModel).password).toBe('any_password')
   })
 })
