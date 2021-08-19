@@ -12,7 +12,7 @@ import env from '../../config/env'
 export const makeLoginController = (): Controller => {
   const accountRepository = new AccountMongoRepository()
   const bcryptAdapter = new BCryptAdapter(12)
-  const jwtAdapter = new JWTAdapter(env.secretKey as string)
+  const jwtAdapter = new JWTAdapter(env.jwtSecret as string)
   const authAccount = new DbAuthAccount(
     accountRepository,
     bcryptAdapter,
