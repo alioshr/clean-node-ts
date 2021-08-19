@@ -6,14 +6,14 @@ import {
   ok
 } from '../../helpers/http/http-helper'
 import { Validator } from '../../protocols'
-import { LoginController } from './login'
+import { LoginController } from './login-controller'
 import {
   HttpRequest,
   AuthResponseData,
   AuthAccount,
   AuthAccountModel,
   Controller
-} from './login-protocols'
+} from './login-controller-protocols'
 
 const makeValidatorStub = (): Validator => {
   class ValidatorStub implements Validator {

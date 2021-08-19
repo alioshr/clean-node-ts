@@ -1,4 +1,4 @@
-import { ILogErrorRepository } from '../../data/protocols/db/log-error-repository'
+import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository'
 import { AccountModel } from '../../domain/models/account'
 import { ok, serverError } from '../../presentation/helpers/http/http-helper'
 import {
@@ -6,7 +6,7 @@ import {
   HttpRequest,
   HttpResponse
 } from '../../presentation/protocols'
-import { LoggerControllerDecorator } from './log'
+import { LoggerControllerDecorator } from './log-controller-decorator'
 
 interface sutTypes {
   sut: LoggerControllerDecorator
