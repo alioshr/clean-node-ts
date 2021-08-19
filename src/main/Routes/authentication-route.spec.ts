@@ -30,14 +30,12 @@ describe('Login Route', () => {
   })
   describe('POST / login', () => {
     test('Should return 200 on login success', async () => {
-      await request(app)
-        .post('/api/signup')
-        .send({
-          name: 'Aliosh',
-          email: 'aliosh@t.com',
-          password: '123',
-          confirmPassword: '123'
-        })
+      await request(app).post('/api/signup').send({
+        name: 'Aliosh',
+        email: 'aliosh@t.com',
+        password: '123',
+        confirmPassword: '123'
+      })
 
       await request(app)
         .post('/api/login')
@@ -46,6 +44,15 @@ describe('Login Route', () => {
           password: '123'
         })
         .expect(200)
+    })
+    test('Should return 401 on login success', async () => {
+      await request(app)
+        .post('/api/login')
+        .send({
+          email: 'aliosh@t.com',
+          password: '123'
+        })
+        .expect(401)
     })
   })
 })

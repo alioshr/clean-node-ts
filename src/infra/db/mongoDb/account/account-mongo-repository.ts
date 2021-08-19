@@ -7,8 +7,10 @@ import { AccountModel } from '../../../../domain/models/account'
 import { AddAccountModel } from '../../../../domain/usecases/add-account'
 import { MongoHelper } from '../helpers/mongo-helper'
 
-export class AccountMongoRepository
-implements AddUserRepository, UpdateAccessTokenRepository, LoadAccountRepository {
+export class AccountMongoRepository implements
+    AddUserRepository,
+    UpdateAccessTokenRepository,
+    LoadAccountRepository {
   async add (accountData: AddAccountModel): Promise<AccountModel> {
     const collection = await MongoHelper.getCollection('accounts')
     const result = await collection.insertOne(accountData)
@@ -19,7 +21,10 @@ implements AddUserRepository, UpdateAccessTokenRepository, LoadAccountRepository
   async load (email: string): Promise<AccountModel | null | Error> {
     const collection = await MongoHelper.getCollection('accounts')
     const loadedAccount = await collection.findOne({ email: email })
-    return MongoHelper.map(loadedAccount)
+    if (loadedAccount) {
+      return MongoHelper.map(loadedAccount)
+    }
+    return null
   }
 
   async updateToken (data: { token: string, id: string }): Promise<void> {
