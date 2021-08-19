@@ -7,11 +7,12 @@ import { LoginController } from '../../../presentation/controllers/login/login-c
 import { Controller } from '../../../presentation/protocols'
 import { LoggerControllerDecorator } from '../../decorators/log-controller-decorator'
 import { makeLoginValidationComposite } from './login-validation-factory'
+import env from '../../config/env'
 
 export const makeLoginController = (): Controller => {
   const accountRepository = new AccountMongoRepository()
   const bcryptAdapter = new BCryptAdapter(12)
-  const jwtAdapter = new JWTAdapter()
+  const jwtAdapter = new JWTAdapter(env.secretKey as string)
   const authAccount = new DbAuthAccount(
     accountRepository,
     bcryptAdapter,
