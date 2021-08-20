@@ -2,9 +2,11 @@
     "compilerOptions": {
         "outDir": "./dist",
         "module": "commonjs",
-        "target": "es2019",
+        "target": "es6",
         "esModuleInterop": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "sourceMap": true,
+        "allowJs": false
     },
     "include": [
         "./src"
