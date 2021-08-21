@@ -10,6 +10,8 @@
     "build:heroku": "rimraf dist && tsc",
     "start": "node dist/main/server.js",
     "dev": "nodemon -x ts-node src/main/server.ts",
+    "up": "npm run build:heroku && docker-compose up -d",
+    "down": "docker-compose down",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",

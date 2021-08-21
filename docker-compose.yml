@@ -16,7 +16,6 @@ services:
     command: npm start
     volumes: 
       - ./dist:/usr/src/clean-node-api/dist
-      - .env:/usr/src/clean-node-api
     ports: 
       - "5050:5050"
     # links: 
