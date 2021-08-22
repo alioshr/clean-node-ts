@@ -1,6 +1,18 @@
 # clean-node-ts
 
-- [Test](## APIs built per use case)
+## Documentation
+
+* [Diagrams built](#diagrams-built-per-use-case)
+* [APIs built](#apis-built-per-use-case)
+* [Principles](#principles)
+* [Design Patterns](#design-patterns)
+* [Methodologies & Designs](#methodologies-&-designs)
+* [Libs & Tools](#libs-&-tools)
+* [Node Features](#node-features)
+* [GraphQL Features](#graphql-features)
+* [Typescript Features](#typescript-features)
+* [Tests Features](#tests-features)
+* [MongoDb Features](#mongodb-features)
 
 > ## Implementation Status
 
