@@ -6,8 +6,8 @@
 * [APIs built](#apis-built-per-use-case)
 * [Principles](#principles)
 * [Design Patterns](#design-patterns)
-* [Methodologies & Designs](#methodologies-&-designs)
-* [Libs & Tools](#libs-&-tools)
+* [Methodologies & Designs](#methodologies-and-designs)
+* [Libs & Tools](#libs-and-tools)
 * [Node Features](#node-features)
 * [GraphQL Features](#graphql-features)
 * [Typescript Features](#typescript-features)
@@ -70,7 +70,7 @@
 * Builder
 * Singleton
 
-> ## Methodologies & Designs
+> ## Methodologies and Designs
 
 * TDD
 * Clean Architecture
@@ -84,7 +84,7 @@
 * Continuous Delivery
 * Continuous Deployment
 
-> ## Libs & Tools
+> ## Libs and Tools
 
 * NPM
 * Typescript
