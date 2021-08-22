@@ -22,12 +22,12 @@
 
 > ## Diagrams built per use case
 
-1. 🚧 [Sign Up](https://app.diagrams.net/#Halioshr%2Fclean-node-ts%2Fmaster%2Frequirements%2Fsignup%2FSign-Up.drawio)
-2. ⛔ [Login](./diagrams/login.md)
-3. ⛔ [Build a survey](./diagrams/add-survey.md)
-4. ⛔ [List surveys](./diagrams/load-surveys.md)
-5. ⛔ [Answer survey](./diagrams/save-survey-result.md)
-6. ⛔ [Results of the survey](./diagrams/load-survey-result.md)
+1. 🚧 [Sign Up](./requirements/signup/diagram.md)
+2. 🚧 [Login](./requirements/login/diagram.md)
+3. ⛔ [Build a survey](./requirements/add-survey/diagram.md)
+4. ⛔ [List surveys](./requirements/load-surveys/diagram.md)
+5. ⛔ [Answer survey](./requirements/save-survey-result/diagram.md)
+6. ⛔ [Results of the survey](./requirements/load-survey-result/diagram.md)
 
 ### Sample
 ![Diagram](https://github.com/alioshr/Alioshr/blob/master/Untitled%20Diagram.png)
