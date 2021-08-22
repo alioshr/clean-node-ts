@@ -8,19 +8,27 @@ An API being written with the following principles & patterns:
 - Design Patterns (Decorators, Adapters, Composites, etc)
 - TDD
 
-I must update the diagram with the current feature being implemented and document this study-case.
-
-![Diagram](https://github.com/alioshr/Alioshr/blob/master/Untitled%20Diagram.png)
-
-## [**Link to the API documentation**]()
-
-> ## APIs built
-
-### Implementation Status
+> ## Implementation Status
 
 🚧  Ongoing
 ✅  Done
 ⛔  Not started
+
+> ## Diagrams built per use case
+
+1. 🚧 [Sign Up](./diagrams/signup.md)
+2. ⛔ [Login](./diagrams/login.md)
+3. ⛔ [Build a survey](./diagrams/add-survey.md)
+4. ⛔ [List surveys](./diagrams/load-surveys.md)
+5. ⛔ [Answer survey](./diagrams/save-survey-result.md)
+6. ⛔ [Results of the survey](./diagrams/load-survey-result.md)
+
+### Sample
+![Diagram](https://github.com/alioshr/Alioshr/blob/master/Untitled%20Diagram.png)
+
+## [**Link to the API documentation**]()
+
+> ## APIs built per use case
 
 1. 🚧 [Sign Up](./requirements/signup.md)
 2. 🚧 [Login](./requirements/login.md)
@@ -94,7 +102,6 @@ I must update the diagram with the current feature being implemented and documen
 * Lint Staged
 * Eslint
 * Standard Javascript Style
-* Sucrase
 * Nodemon
 * Rimraf
 * In-Memory MongoDb Server
@@ -127,18 +134,6 @@ I must update the diagram with the current feature being implemented and documen
 * Directives
 * Scalars
 * Plugins
-
-> ## Git Features
-
-* Alias
-* Personalized logging
-* Branch
-* Reset
-* Amend
-* Tag
-* Stash
-* Rebase
-* Merge
 
 > ## Typescript Features
 
