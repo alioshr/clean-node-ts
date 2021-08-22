@@ -1,6 +1,8 @@
 # clean-node-ts
 
-## Readme Documentation Index
+This is a case study of the implementation of an API with Typescript and all of the details listed below.
+
+## Index
 
 * [Diagrams built](#diagrams-built-per-use-case)
 * [APIs built](#apis-built-per-use-case)
