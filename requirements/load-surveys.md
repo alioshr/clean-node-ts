@@ -1,4 +1,4 @@
-# Listar enquetes
+# List Survey results
 
 > ## Success cases
 

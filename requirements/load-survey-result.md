@@ -1,4 +1,4 @@
-# Resultado da enquete
+# Survey Results
 
 > ## Success case
 
