@@ -16,12 +16,18 @@ I must update the diagram with the current feature being implemented and documen
 
 > ## APIs built
 
-1. [Sign Up](./requirements/signup.md)
-2. [Login](./requirements/login.md)
-3. [Build question](./requirements/add-survey.md)
-4. [List questions](./requirements/load-surveys.md)
-5. [Answer question](./requirements/save-survey-result.md)
-6. [Results of the questions](./requirements/load-survey-result.md)
+### Implementation Status
+
+🚧  Ongoing
+✅  Done
+⛔  Not started
+
+1. 🚧 [Sign Up](./requirements/signup.md)
+2. 🚧 [Login](./requirements/login.md)
+3. ⛔ [Build a survey](./requirements/add-survey.md)
+4. ⛔ [List surveys](./requirements/load-surveys.md)
+5. ⛔ [Answer survey](./requirements/save-survey-result.md)
+6. ⛔ [Results of the survey](./requirements/load-survey-result.md)
 
 > ## Principles
 

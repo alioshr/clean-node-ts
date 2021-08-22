@@ -1,21 +1,21 @@
 # Responder enquete
 
-> ## Caso de sucesso
+> ## Success Cases
 
-1. ✅ Recebe uma requisição do tipo **PUT** na rota **/api/surveys/{survey_id}/results**
-2. ✅ Valida se a requisição foi feita por um **usuário**
-3. ✅ Valida o parâmetro **survey_id**
-4. ✅ Valida se o campo **answer** é uma resposta válida
-5. ✅ **Cria** um resultado de enquete com os dados fornecidos caso não tenha um registro
-6. ✅ **Atualiza** um resultado de enquete com os dados fornecidos caso já tenha um registro
-7. ✅ Retorna **200** com os dados do resultado da enquete
+1. ⛔ Receives a **PUT** request on route **/api/surveys/{survey_id}/results**
+2. ⛔ Validates if the request has been made by a **user**
+3. ⛔ Validates the param **survey_id**
+4. ⛔ Validates if the **answer** field is valid
+5. ⛔ **Creates** a survey result with the provided data in case there are no records
+6. ⛔ **Updates** a survey result with the provided data in case there are records
+7. ⛔ Returns **200** with the survey result
 
-> ## Exceções
+> ## Exceptions
 
-1. ✅ Retorna erro **404** se a API não existir
-2. ✅ Retorna erro **403** se não for um usuário
-3. ✅ Retorna erro **403** se o survey_id passado na URL for inválido
-4. ✅ Retorna erro **403** se a resposta enviada pelo client for uma resposta inválida
-5. ✅ Retorna erro **500** se der erro ao tentar criar o resultado da enquete
-6. ✅ Retorna erro **500** se der erro ao tentar atualizar o resultado da enquete
-7. ✅ Retorna erro **500** se der erro ao tentar carregar a enquete
+1. ⛔ Returns **404** if the API does not exist Retorna erro **404** se a API não existir
+2. ⛔ Returns **403** if the request is not made by a user
+3. ⛔ Returns **403** if the survey_id passed as a URL query param is not valid
+4. ⛔ Returns **403** if the answer provided by the client is invalid
+5. ⛔ Returns **500** if an error occurs while trying to create the survey result
+6. ⛔ Returns **500** if an error occurs while trying to update the survey result
+7. ⛔ Returns **500** if an error occurs while trying to load the survey
