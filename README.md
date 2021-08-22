@@ -22,7 +22,7 @@
 
 > ## Diagrams built per use case
 
-1. 🚧 [Sign Up](./diagrams/signup.md)
+1. 🚧 [Sign Up](https://app.diagrams.net/#Halioshr%2Fclean-node-ts%2Fmaster%2Frequirements%2Fsignup%2FSign-Up.drawio)
 2. ⛔ [Login](./diagrams/login.md)
 3. ⛔ [Build a survey](./diagrams/add-survey.md)
 4. ⛔ [List surveys](./diagrams/load-surveys.md)
@@ -36,12 +36,12 @@
 
 > ## APIs built per use case
 
-1. 🚧 [Sign Up](./requirements/signup.md)
-2. 🚧 [Login](./requirements/login.md)
-3. ⛔ [Build a survey](./requirements/add-survey.md)
-4. ⛔ [List surveys](./requirements/load-surveys.md)
-5. ⛔ [Answer survey](./requirements/save-survey-result.md)
-6. ⛔ [Results of the survey](./requirements/load-survey-result.md)
+1. 🚧 [Sign Up](./requirements/signup/signup.md)
+2. 🚧 [Login](./requirements/login/login.md)
+3. ⛔ [Build a survey](./requirements/add-survey/add-survey.md)
+4. ⛔ [List surveys](./requirements/load-surveys/load-surveys.md)
+5. ⛔ [Answer survey](./requirements/save-survey-result/save-survey-result.md)
+6. ⛔ [Results of the survey](./requirements/load-survey-result/load-survey-result.md)
 
 > ## Principles
 
