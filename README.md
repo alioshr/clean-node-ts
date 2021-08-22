@@ -1,6 +1,6 @@
 # clean-node-ts
 
-## Documentation
+## Readme Documentation Index
 
 * [Diagrams built](#diagrams-built-per-use-case)
 * [APIs built](#apis-built-per-use-case)
@@ -28,9 +28,6 @@
 4. ⛔ [List surveys](./requirements/load-surveys/diagram.md)
 5. ⛔ [Answer survey](./requirements/save-survey-result/diagram.md)
 6. ⛔ [Results of the survey](./requirements/load-survey-result/diagram.md)
-
-### Sample
-![Diagram](https://github.com/alioshr/Alioshr/blob/master/Untitled%20Diagram.png)
 
 ## [**Link to the API documentation**]()
 
