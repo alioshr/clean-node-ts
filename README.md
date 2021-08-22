@@ -10,9 +10,9 @@ An API being written with the following principles & patterns:
 
 > ## Implementation Status
 
-🚧  Ongoing
-✅  Done
-⛔  Not started
+- 🚧  Ongoing
+- ✅  Done
+- ⛔  Not started
 
 > ## Diagrams built per use case
 
