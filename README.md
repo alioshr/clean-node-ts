@@ -1,26 +1,40 @@
 # clean-node-ts
 
-An API being written with the following principles & patterns: 
+## Documentation
 
-- SOLID
-- Clean Architecture
-- Clean Code
-- Design Patterns (Decorators, Adapters, Composites, etc)
-- TDD
+* [Diagrams built](#diagrams-built-per-use-case)
+* [APIs built](#apis-built-per-use-case)
+* [Principles](#principles)
+* [Design Patterns](#design-patterns)
+* [Methodologies & Designs](#methodologies-and-designs)
+* [Libs & Tools](#libs-and-tools)
+* [Node Features](#node-features)
+* [GraphQL Features](#graphql-features)
+* [Typescript Features](#typescript-features)
+* [Tests Features](#tests-features)
+* [MongoDb Features](#mongodb-features)
 
-I must update the diagram with the current feature being implemented and document this study-case.
+> ## Implementation Status
 
+- 🚧  Ongoing
+- ✅  Done
+- ⛔  Not started
+
+> ## Diagrams built per use case
+
+1. 🚧 [Sign Up](./diagrams/signup.md)
+2. ⛔ [Login](./diagrams/login.md)
+3. ⛔ [Build a survey](./diagrams/add-survey.md)
+4. ⛔ [List surveys](./diagrams/load-surveys.md)
+5. ⛔ [Answer survey](./diagrams/save-survey-result.md)
+6. ⛔ [Results of the survey](./diagrams/load-survey-result.md)
+
+### Sample
 ![Diagram](https://github.com/alioshr/Alioshr/blob/master/Untitled%20Diagram.png)
 
 ## [**Link to the API documentation**]()
 
-> ## APIs built
-
-### Implementation Status
-
-🚧  Ongoing
-✅  Done
-⛔  Not started
+> ## APIs built per use case
 
 1. 🚧 [Sign Up](./requirements/signup.md)
 2. 🚧 [Login](./requirements/login.md)
@@ -56,7 +70,7 @@ I must update the diagram with the current feature being implemented and documen
 * Builder
 * Singleton
 
-> ## Methodologies & Designs
+> ## Methodologies and Designs
 
 * TDD
 * Clean Architecture
@@ -70,7 +84,7 @@ I must update the diagram with the current feature being implemented and documen
 * Continuous Delivery
 * Continuous Deployment
 
-> ## Libs & Tools
+> ## Libs and Tools
 
 * NPM
 * Typescript
@@ -94,7 +108,6 @@ I must update the diagram with the current feature being implemented and documen
 * Lint Staged
 * Eslint
 * Standard Javascript Style
-* Sucrase
 * Nodemon
 * Rimraf
 * In-Memory MongoDb Server
@@ -127,18 +140,6 @@ I must update the diagram with the current feature being implemented and documen
 * Directives
 * Scalars
 * Plugins
-
-> ## Git Features
-
-* Alias
-* Personalized logging
-* Branch
-* Reset
-* Amend
-* Tag
-* Stash
-* Rebase
-* Merge
 
 > ## Typescript Features
 
