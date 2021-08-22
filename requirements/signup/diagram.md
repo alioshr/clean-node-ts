@@ -1,3 +1,3 @@
 # Sign Up Diagram
 
-[Sign Up Diagram](./sign-up.svg)
+![Sign Up Diagram](./sign-up.svg)
