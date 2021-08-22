@@ -23,7 +23,7 @@
 > ## Diagrams built per use case
 
 1. 🚧 [Sign Up](./requirements/signup/diagram.md)
-2. 🚧 [Login](./requirements/login/diagram.md)
+2. ⛔ [Login](./requirements/login/diagram.md)
 3. ⛔ [Build a survey](./requirements/add-survey/diagram.md)
 4. ⛔ [List surveys](./requirements/load-surveys/diagram.md)
 5. ⛔ [Answer survey](./requirements/save-survey-result/diagram.md)
