@@ -11,7 +11,7 @@
     "start": "node dist/main/server.js",
     "debug": "nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
     "dev": "nodemon -x ts-node src/main/server.ts",
-    "up": "npm run build:ci && docker-compose up",
+    "up": "npm run heroku-postbuild && docker-compose up",
     "down": "docker-compose down",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
