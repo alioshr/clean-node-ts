@@ -3,12 +3,12 @@ cache: npm
 node_js:
   - "stable"
 
-install:
-  - npm ci
-  - npm run build
+  script:
+  - eslint 'src/**'
+  - npm run test:ci
 
-script:
-  - npm run test
+install:
+  - npm run build:ci
 
 deploy:
   provider: heroku
