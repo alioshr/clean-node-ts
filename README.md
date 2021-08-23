@@ -1,6 +1,6 @@
 # clean-node-ts
 
-This is a case study of the implementation of an API with Typescript and all of the details listed below.
+This is a case study of the implementation of an API with Typescript and Nodejs
 
 ## Index
 
