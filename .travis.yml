@@ -8,6 +8,7 @@ script:
   - npm run test:ci
 
 install:
+  - npm install
   - npm run build:ci
 
 deploy:
