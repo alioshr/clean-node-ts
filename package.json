@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build:ci": "rimraf dist && tsc",
+    "heroku-postbuild": "npm run build:ci",
     "start": "node dist/main/server.js",
     "debug": "nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
     "dev": "nodemon -x ts-node src/main/server.ts",
