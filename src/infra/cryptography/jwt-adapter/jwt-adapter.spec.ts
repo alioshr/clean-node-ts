@@ -20,7 +20,7 @@ describe('JWt Adapter', () => {
     )
   })
 
-  test.skip('should throw if sign throws', () => {
+  test('should throw if sign throws', () => {
     const sut = makeSut()
     jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
       return new Error()

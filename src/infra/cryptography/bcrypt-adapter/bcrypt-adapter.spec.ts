@@ -76,7 +76,7 @@ describe('Bcrypt Adapter', () => {
     expect(response).toBe(false)
   })
 
-  test.skip('Should throw if bcrypt compare throws', async () => {
+  test('Should throw if bcrypt compare throws', async () => {
     const { sut } = makeSut()
     const password = 'valid_password'
     jest
