@@ -45,7 +45,7 @@ describe('Login Route', () => {
         })
         .expect(200)
     })
-    test('Should return 401 on login success', async () => {
+    test('Should return 401 on login failure', async () => {
       await request(app)
         .post('/api/login')
         .send({
