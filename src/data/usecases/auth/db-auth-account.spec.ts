@@ -58,7 +58,7 @@ const makeHashComparer = (): HashComparer => {
 
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
-    encrypt (data: { id: string, name: string }): string {
+    encrypt (data: {[key: string]: any}): string | Error {
       return GENERATED_TOKEN
     }
   }
