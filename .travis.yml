@@ -1,0 +1,16 @@
+language: node_js
+cache: false
+node_js:
+  - "stable"
+
+script:
+  - eslint 'src/**'
+  - npm run test:ci
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: Xjucw0NOXzAaCsguj0YFCf1Tmi/8zG50JDhst+lNloCHatrKyuIwrpGFgnDrYWfcHtbDSZ4bOHYPTj3Sb83Irhr8jvrFIADnPEQSnb1nx/muu8c1gsjjCliqiKxZJYE4Y17fiMv9Jyz5AwGUyg53uuuf5JFO0XwVfS7C1bFnT8eSBwelGgMXDDuecIWuY9oL4zE50VGDAqjl4Q2LjdTuLuIMH1CC7o+XAYP/cvdwmsD2tehUpyLj63khTClXC4xFU8DQ7Yg6e9tfXvG2Kf2dcVzRq3TGSpGTZnEWOMFV1vJkWo3TDCujcBBqNTEUQm1Wt0O6s5b2mRrvS/gcx9fG1CK3mhkcf5gYhF1grbrmQQ9NbETIdly/zumSfmf/J2bOROMiTfEqWPM0dCX1LXSrEzZJebS5+ISrod+mAkW/M6Pnnr8yYYw+84WGEvBpoC85hilj9VlI4L4gKjlj9NOjLrKUnPCyduPV11e2Yad/b5hgYocbMJTA586nu121SRHJDs0AJAhSdGg0X4LS0jutwjQWOpYnbmP9QEwM5zzjxD1Fyxv4mEc6jSZe2QQu2AeZri1PDUeN+KpqFWMy2gsWB09K6qTCspFh7N7mc5CoI6sVa4PdtJ8muJrS7Qx5jwdxBNw6jnc8ZDu3q6wIrk9AdIFDxxzEB8PMJ5LNV2i+org=
+  app:
+    master: clean-express-api
+  strategy: git
