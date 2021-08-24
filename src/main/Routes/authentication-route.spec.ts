@@ -18,21 +18,8 @@ describe('Login Route', () => {
     accountsCollection = await MongoHelper.getCollection('accounts')
     await accountsCollection.deleteMany({})
   })
-  describe('POST / signup', () => {
-    test('Should 200 on signup success', async () => {
-      await request(app)
-        .post('/api/signup')
-        .send({
-          name: 'Aliosh',
-          email: 'aliosh@t.com',
-          password: '123',
-          confirmPassword: '123'
-        })
-        .expect(200)
-    })
-  })
   describe('POST / login', () => {
-    test.skip('Should return 200 on login success', async () => {
+    test('Should return 200 on login success', async () => {
       const password = await hash('123', 12)
       await accountsCollection.insertOne({
         name: 'Aliosh',
@@ -55,6 +42,20 @@ describe('Login Route', () => {
           password: '123'
         })
         .expect(401)
+    })
+  })
+
+  describe('POST / signup', () => {
+    test('Should 200 on signup success', async () => {
+      await request(app)
+        .post('/api/signup')
+        .send({
+          name: 'Aliosh',
+          email: 'aliosh@t.com',
+          password: '123',
+          confirmPassword: '123'
+        })
+        .expect(200)
     })
   })
 })
