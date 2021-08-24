@@ -2,7 +2,7 @@ import { JWTAdapter } from './jwt-adapter'
 import jwt from 'jsonwebtoken'
 
 jest.mock('jsonwebtoken', () => ({
-  sign: (): string | Error => 'valid_access_token'
+  sign: (): string => 'valid_access_token'
 }))
 
 const makeSut = (): JWTAdapter => {
@@ -10,28 +10,30 @@ const makeSut = (): JWTAdapter => {
 }
 
 describe('JWt Adapter', () => {
-  test('JWT sign is called with the correct params', () => {
+  test('JWT sign is called with the correct params', async () => {
     const sut = makeSut()
     const signSpy = jest.spyOn(jwt, 'sign')
-    sut.encrypt({ id: 'valid_id', name: 'valid_name' })
+    await sut.encrypt({ id: 'valid_id', name: 'valid_name' })
     expect(signSpy).toHaveBeenCalledWith(
       { id: 'valid_id', name: 'valid_name' },
       'private-secret'
     )
   })
 
-  test('Should return a valid token on success', () => {
-    const sut = makeSut()
-    const token = sut.encrypt({ id: 'valid_id', name: 'valid_name' })
-    expect(token).toBeTruthy()
-    expect(token).toBe('valid_access_token')
-  })
-
-  test('should throw if sign throws', () => {
+  test('should throw if sign throws', async () => {
     const sut = makeSut()
     jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
       throw new Error()
     })
-    expect(sut.encrypt).toThrow()
+    const promise = sut.encrypt({ id: 'valid_id', name: 'valid_name' })
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('Should return a valid token on success', async () => {
+    const sut = makeSut()
+    const token = await sut.encrypt({ id: 'valid_id', name: 'valid_name' })
+    console.log(token)
+    expect(token).toBeTruthy()
+    expect(token).toBe('valid_access_token')
   })
 })

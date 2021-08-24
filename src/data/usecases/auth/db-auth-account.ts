@@ -33,15 +33,15 @@ export class DbAuthAccount implements AuthAccount {
     if (!isValid) {
       return null
     }
-    const token = this.encrypter.encrypt({
+    const token = await this.encrypter.encrypt({
       name: (account as AccountModel).name,
       id: (account as AccountModel).id
     })
 
     await this.updateAccessToken.updateToken({
-      token: token as string,
+      token: token,
       id: (account as AccountModel).id
     })
-    return { userId: (account as AccountModel).id, token: token as string }
+    return { userId: (account as AccountModel).id, token: token }
   }
 }

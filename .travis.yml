@@ -5,9 +5,7 @@ node_js:
 
 script:
   - eslint 'src/**'
-
-install:
-  - npm install
+  - npm run test:ci
 
 deploy:
   provider: heroku
