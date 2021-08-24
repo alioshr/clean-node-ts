@@ -20,18 +20,20 @@ describe('JWt Adapter', () => {
     )
   })
 
-  test('Should return a valid token on success', () => {
-    const sut = makeSut()
-    const token = sut.encrypt({ id: 'valid_id', name: 'valid_name' })
-    expect(token).toBeTruthy()
-    expect(token).toBe('valid_access_token')
-  })
-
   test('should throw if sign throws', () => {
     const sut = makeSut()
     jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
-      throw new Error()
+      return new Error()
     })
+    sut.encrypt({ id: 'valid_id', name: 'valid_name' })
     expect(sut.encrypt).toThrow()
+  })
+
+  test('Should return a valid token on success', () => {
+    const sut = makeSut()
+    const token = sut.encrypt({ id: 'valid_id', name: 'valid_name' })
+    console.log(token)
+    expect(token).toBeTruthy()
+    expect(token).toBe('valid_access_token')
   })
 })
