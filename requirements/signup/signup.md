@@ -9,9 +9,9 @@
 5. ⛔ **Validates** if the user already exists
 6. ✅ Generates an **encrypted** password which cannot be decrypted
 7. ✅ **Creates** a user account with the provided data, **replacing** the password for an encrypted password
-8. ⛔ Generates an access **token** with the user ID and email
-9. ⛔ **Updates** the user data with the generated access token
-10. ⛔ Returns **200** with the generated access token + user id
+8. ✅ Generates an access **token** with the user ID and email
+9. ✅ **Updates** the user data with the generated access token
+10. ✅ Returns **200** with the generated access token + user id
 
 > ## Exceptions
 
@@ -23,4 +23,4 @@
 6. ✅ Returns **500** if an error occurs while trying to generate an encrypted password
 7. ✅ Returns **500** if an error occurs while trying to save/load an account
 8. ✅ Returns **500** if an error occurs while trying to generate an access token
-9. ✅ Returns **500** if an error occurs while trying to update the user account with the generate access token
+9. ✅ Returns **500** if an error occurs while trying to update the user account with the generated access token
