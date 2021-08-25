@@ -3,7 +3,10 @@ import { MissingParamError } from '../../errors'
 import {
   AddAccount,
   AddAccountModel,
-  AccountModel
+  AccountModel,
+  AuthAccount,
+  AuthAccountModel,
+  AuthResponseData
 } from './signup-controller-protocols'
 import { badRequest, ok, serverError } from '../../helpers/http/http-helper'
 import { HttpRequest } from '../../protocols'
@@ -43,23 +46,42 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub()
 }
 
+const makeFakeAuthAccount = (): AuthResponseData => ({
+  token: 'any_token',
+  userId: 'any_user_id'
+})
+
+const makeAuthAccountStub = (): AuthAccount => {
+  class AuthAccountStub implements AuthAccount {
+    async auth (authData: AuthAccountModel): Promise<AuthResponseData> {
+      return await new Promise((resolve) => resolve(makeFakeAuthAccount()))
+    }
+  }
+  return new AuthAccountStub()
+}
+
 interface SutTypes {
   sut: SignUpController
   addAccountStub: AddAccount
   validatorStub: Validator
+  authAccountStub: AuthAccount
+
 }
 
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount()
   const validatorStub = makeValidatorStub()
+  const authAccountStub = makeAuthAccountStub()
   const sut = new SignUpController(
     addAccountStub,
-    validatorStub
+    validatorStub,
+    authAccountStub
   )
   return {
     sut,
     addAccountStub,
-    validatorStub
+    validatorStub,
+    authAccountStub
   }
 }
 
@@ -109,5 +131,12 @@ describe('Auth Controller', () => {
       .mockReturnValueOnce(error)
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(badRequest(error))
+  })
+  test('Should call auth with the correct params', async () => {
+    const { sut, authAccountStub } = makeSut()
+    const { email, password } = makeFakeHttpRequest().body
+    const authSpy = jest.spyOn(authAccountStub, 'auth')
+    await sut.handle(makeFakeHttpRequest())
+    expect(authSpy).toHaveBeenCalledWith({ email, password })
   })
 })
