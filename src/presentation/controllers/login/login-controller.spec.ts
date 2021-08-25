@@ -75,6 +75,13 @@ describe('Login Controller', () => {
     expect(httpResponse).toEqual(badRequest(error))
   })
 
+  test('Should call auth with the correct params', async () => {
+    const { sut, authAccountStub } = makeSut()
+    const authSpy = jest.spyOn(authAccountStub, 'auth')
+    await sut.handle(makeFakeHttpRequest())
+    expect(authSpy).toHaveBeenCalledWith(makeFakeHttpRequest().body)
+  })
+
   test('Should return a server error if authAccount throws', async () => {
     const { sut, authAccountStub } = makeSut()
     const error = new Error()
