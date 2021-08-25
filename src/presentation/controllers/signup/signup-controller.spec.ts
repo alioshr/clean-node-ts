@@ -100,7 +100,7 @@ describe('Auth Controller', () => {
       password: httpRequest.body.password
     })
   })
-  test('should return 500 if AddAccount throws', async () => {
+  test('should return a serverError if AddAccount throws', async () => {
     const { sut, addAccountStub } = makeSut()
     const error = new Error()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
@@ -108,11 +108,6 @@ describe('Auth Controller', () => {
     })
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(serverError(error))
-  })
-  test('Should return 200 if the proper data is provided', async () => {
-    const { sut } = makeSut()
-    const httpResponse = await sut.handle(makeFakeHttpRequest())
-    expect(httpResponse).toEqual(ok(makeFakeAccount()))
   })
 
   test('should call Validator with the proper params', async () => {
@@ -147,5 +142,10 @@ describe('Auth Controller', () => {
     })
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(serverError(error))
+  })
+  test('should return an AuthAccountModel on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(ok(makeFakeAuthAccount()))
   })
 })
