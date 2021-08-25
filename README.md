@@ -36,7 +36,7 @@ This is a case study of the implementation of an API with Typescript and Nodejs
 5. ⛔ [Answer survey](./requirements/save-survey-result/diagram.md)
 6. ⛔ [Results of the survey](./requirements/load-survey-result/diagram.md)
 
-## [**Link to the API documentation**]()
+<!-- ## [**Link to the API documentation**]() -->
 
 > ## APIs built per use case
 
