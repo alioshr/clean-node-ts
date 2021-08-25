@@ -139,4 +139,13 @@ describe('Auth Controller', () => {
     await sut.handle(makeFakeHttpRequest())
     expect(authSpy).toHaveBeenCalledWith({ email, password })
   })
+  test('Should return a server error if authAccount throws', async () => {
+    const { sut, authAccountStub } = makeSut()
+    const error = new Error()
+    jest.spyOn(authAccountStub, 'auth').mockImplementationOnce(() => {
+      throw error
+    })
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(serverError(error))
+  })
 })
