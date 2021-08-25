@@ -9,9 +9,9 @@
 5. ⛔ **Validates** if the user already exists
 6. ✅ Generates an **encrypted** password which cannot be decrypted
 7. ✅ **Creates** a user account with the provided data, **replacing** the password for an encrypted password
-8. ✅ Generates an access **token** with the user ID and email
-9. ✅ **Updates** the user data with the generated access token
-10. ✅ Returns **200** with the generated access token + user id
+8. ⛔ Generates an access **token** with the user ID and email
+9. ⛔ **Updates** the user data with the generated access token
+10. ⛔ Returns **200** with the generated access token + user id
 
 > ## Exceptions
 
