@@ -1,4 +1,3 @@
-import { env } from 'process'
 import { DbAddAccount } from '../../../data/usecases/add-account/db-add-account'
 import { DbAuthAccount } from '../../../data/usecases/auth/db-auth-account'
 import { BCryptAdapter } from '../../../infra/cryptography/bcrypt-adapter/bcrypt-adapter'
@@ -7,6 +6,7 @@ import { AccountMongoRepository } from '../../../infra/db/mongodb/account/accoun
 import { LogMongoRepository } from '../../../infra/db/mongodb/log/log-mongo-repository'
 import { SignUpController } from '../../../presentation/controllers/signup/signup-controller'
 import { Controller } from '../../../presentation/protocols'
+import env from '../../config/env'
 import { LoggerControllerDecorator } from '../../decorators/log-controller-decorator'
 import { makeSignUpValidationComposite } from './signup-validation-factory'
 
