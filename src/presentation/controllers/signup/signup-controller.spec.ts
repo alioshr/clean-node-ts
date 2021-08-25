@@ -8,7 +8,7 @@ import {
   AuthAccountModel,
   AuthResponseData
 } from './signup-controller-protocols'
-import { badRequest, ok, serverError } from '../../helpers/http/http-helper'
+import { badRequest, conflict, ok, serverError } from '../../helpers/http/http-helper'
 import { HttpRequest } from '../../protocols'
 import { Validator } from '../../protocols/validator'
 
@@ -65,7 +65,6 @@ interface SutTypes {
   addAccountStub: AddAccount
   validatorStub: Validator
   authAccountStub: AuthAccount
-
 }
 
 const makeSut = (): SutTypes => {
@@ -110,6 +109,15 @@ describe('Auth Controller', () => {
     expect(httpResponse).toEqual(serverError(error))
   })
 
+  test('Should return 409 if AddAccount returns null (email already registered)', async () => {
+    const { sut, addAccountStub } = makeSut()
+    jest
+      .spyOn(addAccountStub, 'add')
+      .mockReturnValueOnce(new Promise((resolve, reject) => resolve(null)))
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(conflict('email'))
+  })
+
   test('should call Validator with the proper params', async () => {
     const { sut, validatorStub } = makeSut()
     const validatorSpy = jest.spyOn(validatorStub, 'validate')
@@ -121,9 +129,7 @@ describe('Auth Controller', () => {
   test('Sut should forward the same error returned by Validator if it throws', async () => {
     const { sut, validatorStub } = makeSut()
     const error = new MissingParamError('any_field')
-    jest
-      .spyOn(validatorStub, 'validate')
-      .mockReturnValueOnce(error)
+    jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(error)
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(badRequest(error))
   })
