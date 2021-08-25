@@ -1,7 +1,6 @@
 # clean-node-ts
 
 [![Build Status](https://app.travis-ci.com/alioshr/clean-node-ts.svg?branch=master)](https://app.travis-ci.com/alioshr/clean-node-ts)
-
 [![Coverage Status](https://coveralls.io/repos/github/alioshr/clean-node-ts/badge.svg?branch=master)](https://coveralls.io/github/alioshr/clean-node-ts?branch=master)
 
 This is a case study of the implementation of an API with Typescript and Nodejs
