@@ -2,7 +2,8 @@ import {
   AddAccountModel,
   Hasher,
   AccountModel,
-  AddUserRepository
+  AddUserRepository,
+  LoadAccountRepository
 } from './db-add-account-protocols'
 import { DbAddAccount } from './db-add-account'
 
@@ -34,20 +35,33 @@ const makeFakeAccount = (): AccountModel => ({
   name: 'valid_name',
   password: 'hashed password'
 })
+
+const makeLoadAccount = (): LoadAccountRepository => {
+  class LoadAccountStub implements LoadAccountRepository {
+    async load (email: string): Promise<AccountModel | null> {
+      return await new Promise((resolve) => resolve(null))
+    }
+  }
+  return new LoadAccountStub()
+}
+
 interface SutTypes {
   sut: DbAddAccount
   hasherStub: Hasher
+  loadAccountStub: LoadAccountRepository
   addUserRepositoryStub: AddUserRepository
 }
 
 const makeSut = (): SutTypes => {
   const hasherStub = makeHasher()
+  const loadAccountStub = makeLoadAccount()
   const addUserRepositoryStub = makeAddUser()
-  const sut = new DbAddAccount(hasherStub, addUserRepositoryStub)
+  const sut = new DbAddAccount(hasherStub, addUserRepositoryStub, loadAccountStub)
   return {
     sut,
     hasherStub,
-    addUserRepositoryStub
+    addUserRepositoryStub,
+    loadAccountStub
   }
 }
 
@@ -92,5 +106,27 @@ describe('DbAddAccount use case', () => {
     const { sut } = makeSut()
     const account = await sut.add(makeFakeAccountData())
     expect(account).toEqual(makeFakeAccount())
+  })
+  test('Must call loadAccount with the correct params', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    const loadAccountSpy = jest.spyOn(loadAccountStub, 'load')
+
+    await sut.add(makeFakeAccountData())
+    expect(loadAccountSpy).toHaveBeenCalledWith(makeFakeAccountData().email)
+  })
+  test('should throw if LoadAccountRepository throws', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    jest
+      .spyOn(loadAccountStub, 'load')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const promise = sut.add(makeFakeAccountData())
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('Must return null if account exists', async () => {
+    const { sut, loadAccountStub } = makeSut()
+    jest.spyOn(loadAccountStub, 'load').mockResolvedValueOnce(makeFakeAccount())
+    const authResult = await sut.add(makeFakeAccountData())
+    expect(authResult).toBeNull()
   })
 })
