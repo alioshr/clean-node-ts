@@ -115,7 +115,7 @@ describe('Auth Controller', () => {
       .spyOn(addAccountStub, 'add')
       .mockReturnValueOnce(new Promise((resolve, reject) => resolve(null)))
     const httpResponse = await sut.handle(makeFakeHttpRequest())
-    expect(httpResponse).toEqual(conflict('email'))
+    expect(httpResponse).toEqual(conflict('email exists'))
   })
 
   test('should call Validator with the proper params', async () => {

@@ -26,7 +26,7 @@ export class SignUpController implements Controller {
 
       const newAccount = await this.addAccount.add({ name, password, email })
       if (!newAccount) {
-        return conflict('email')
+        return conflict('email exists')
       }
       const credentials = await this.authAccount.auth({ email, password })
 
