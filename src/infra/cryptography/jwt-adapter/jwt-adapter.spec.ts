@@ -32,7 +32,6 @@ describe('JWt Adapter', () => {
   test('Should return a valid token on success', async () => {
     const sut = makeSut()
     const token = await sut.encrypt({ id: 'valid_id', name: 'valid_name' })
-    console.log(token)
     expect(token).toBeTruthy()
     expect(token).toBe('valid_access_token')
   })
