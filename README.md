@@ -1,5 +1,7 @@
 # clean-node-ts
 
+[![Build Status](https://app.travis-ci.com/alioshr/clean-node-ts.svg?branch=master)](https://app.travis-ci.com/alioshr/clean-node-ts)
+
 This is a case study of the implementation of an API with Typescript and Nodejs
 
 ## Index
