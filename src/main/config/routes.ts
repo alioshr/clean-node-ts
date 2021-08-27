@@ -9,6 +9,5 @@ export default (app: Express): void => {
     if (!file.includes('.map') && !file.includes('.test')) {
       return (await import(`../routes/${file}`)).default(router)
     }
-  }
-  )
+  })
 }
