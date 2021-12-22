@@ -3,8 +3,8 @@ import {
   ok,
   serverError,
   unauthorized
-} from '../../helpers/http/http-helper'
-import { Validator } from '../../protocols/validator'
+} from '../../../helpers/http/http-helper'
+import { Validator } from '../../../protocols/validator'
 import {
   Controller,
   AuthAccount,

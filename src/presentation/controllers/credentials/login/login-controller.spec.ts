@@ -1,11 +1,11 @@
-import { MissingParamError } from '../../errors'
+import { MissingParamError } from '../../../errors'
 import {
   badRequest,
   serverError,
   unauthorized,
   ok
-} from '../../helpers/http/http-helper'
-import { Validator } from '../../protocols'
+} from '../../../helpers/http/http-helper'
+import { Validator } from '../../../protocols'
 import { LoginController } from './login-controller'
 import {
   HttpRequest,

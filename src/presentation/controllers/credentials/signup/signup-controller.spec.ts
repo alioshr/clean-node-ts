@@ -1,5 +1,5 @@
 import { SignUpController } from './signup-controller'
-import { MissingParamError } from '../../errors'
+import { MissingParamError } from '../../../errors'
 import {
   AddAccount,
   AddAccountModel,
@@ -8,9 +8,9 @@ import {
   AuthAccountModel,
   AuthResponseData
 } from './signup-controller-protocols'
-import { badRequest, conflict, ok, serverError } from '../../helpers/http/http-helper'
-import { HttpRequest } from '../../protocols'
-import { Validator } from '../../protocols/validator'
+import { badRequest, conflict, ok, serverError } from '../../../helpers/http/http-helper'
+import { HttpRequest } from '../../../protocols'
+import { Validator } from '../../../protocols/validator'
 
 const makeValidatorStub = (): Validator => {
   class ValidatorStub implements Validator {
