@@ -1,4 +1,4 @@
-import { AccountModel } from '../../../../domain/models/account'
+import { type AccountModel } from '../../../../domain/models/account'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account-mongo-repository'
 
@@ -33,8 +33,9 @@ describe('Account Mongo Repository', () => {
   })
   test('Should return void on success on updateToken', async () => {
     const sut = makeSut()
+    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
     const result = await sut.updateToken({
-      id: 'vali_id',
+      id: '60a1c1c0b0c9b8b0f8e8b0f8',
       token: 'valid Token'
     })
     expect(result).toBeFalsy()

@@ -1,4 +1,4 @@
-import { AuthResponseData } from '../models/auth'
+import { type AuthResponseData } from '../models/auth'
 
 export interface AuthAccountModel {
   email: string

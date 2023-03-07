@@ -4,12 +4,12 @@ import {
   serverError,
   unauthorized
 } from '../../../helpers/http/http-helper'
-import { Validator } from '../../../protocols/validator'
+import { type Validator } from '../../../protocols/validator'
 import {
-  Controller,
-  AuthAccount,
-  HttpRequest,
-  HttpResponse
+  type Controller,
+  type AuthAccount,
+  type HttpRequest,
+  type HttpResponse
 } from './login-controller-protocols'
 
 export class LoginController implements Controller {

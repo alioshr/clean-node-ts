@@ -5,14 +5,14 @@ import {
   unauthorized,
   ok
 } from '../../../helpers/http/http-helper'
-import { Validator } from '../../../protocols'
+import { type Validator } from '../../../protocols'
 import { LoginController } from './login-controller'
 import {
-  HttpRequest,
-  AuthResponseData,
-  AuthAccount,
-  AuthAccountModel,
-  Controller
+  type HttpRequest,
+  type AuthResponseData,
+  type AuthAccount,
+  type AuthAccountModel,
+  type Controller
 } from './login-controller-protocols'
 
 const makeValidatorStub = (): Validator => {
@@ -39,7 +39,7 @@ const makeFakeAuthAccount = (): AuthResponseData => ({
 const makeAuthAccountStub = (): AuthAccount => {
   class AuthAccountStub implements AuthAccount {
     async auth (authData: AuthAccountModel): Promise<AuthResponseData> {
-      return await new Promise((resolve) => resolve(makeFakeAuthAccount()))
+      return await new Promise((resolve) => { resolve(makeFakeAuthAccount()) })
     }
   }
   return new AuthAccountStub()
@@ -102,7 +102,7 @@ describe('Login Controller', () => {
     const { sut, authAccountStub } = makeSut()
     jest
       .spyOn(authAccountStub, 'auth')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(null as any)))
+      .mockReturnValueOnce(new Promise((resolve) => { resolve(null as any) }))
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(unauthorized())
   })

@@ -1,16 +1,16 @@
 import {
-  AddAccountModel,
-  Hasher,
-  AccountModel,
-  AddUserRepository,
-  LoadAccountRepository
+  type AddAccountModel,
+  type Hasher,
+  type AccountModel,
+  type AddUserRepository,
+  type LoadAccountRepository
 } from './db-add-account-protocols'
 import { DbAddAccount } from './db-add-account'
 
 const makeHasher = (): Hasher => {
   class HasherStub implements Hasher {
     async hash (password: string): Promise<string> {
-      return await new Promise((resolve) => resolve('hashed password'))
+      return await new Promise((resolve) => { resolve('hashed password') })
     }
   }
   return new HasherStub()
@@ -19,7 +19,7 @@ const makeHasher = (): Hasher => {
 const makeAddUser = (): AddUserRepository => {
   class AddUserRepositoryStub implements AddUserRepository {
     async add (account: AddAccountModel): Promise<AccountModel> {
-      return await new Promise((resolve) => resolve(makeFakeAccount()))
+      return await new Promise((resolve) => { resolve(makeFakeAccount()) })
     }
   }
   return new AddUserRepositoryStub()
@@ -39,7 +39,7 @@ const makeFakeAccount = (): AccountModel => ({
 const makeLoadAccount = (): LoadAccountRepository => {
   class LoadAccountStub implements LoadAccountRepository {
     async load (email: string): Promise<AccountModel | null> {
-      return await new Promise((resolve) => resolve(null))
+      return await new Promise((resolve) => { resolve(null) })
     }
   }
   return new LoadAccountStub()
@@ -56,7 +56,11 @@ const makeSut = (): SutTypes => {
   const hasherStub = makeHasher()
   const loadAccountStub = makeLoadAccount()
   const addUserRepositoryStub = makeAddUser()
-  const sut = new DbAddAccount(hasherStub, addUserRepositoryStub, loadAccountStub)
+  const sut = new DbAddAccount(
+    hasherStub,
+    addUserRepositoryStub,
+    loadAccountStub
+  )
   return {
     sut,
     hasherStub,
@@ -77,7 +81,7 @@ describe('DbAddAccount use case', () => {
     jest
       .spyOn(hasherStub, 'hash')
       .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
+        new Promise((resolve, reject) => { reject(new Error()) })
       )
     const promise = sut.add(makeFakeAccountData())
     await expect(promise).rejects.toThrow()
@@ -97,7 +101,7 @@ describe('DbAddAccount use case', () => {
     jest
       .spyOn(addUserRepositoryStub, 'add')
       .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
+        new Promise((resolve, reject) => { reject(new Error()) })
       )
     const promise = sut.add(makeFakeAccountData())
     await expect(promise).rejects.toThrow()
@@ -118,7 +122,9 @@ describe('DbAddAccount use case', () => {
     const { sut, loadAccountStub } = makeSut()
     jest
       .spyOn(loadAccountStub, 'load')
-      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => { reject(new Error()) })
+      )
     const promise = sut.add(makeFakeAccountData())
     await expect(promise).rejects.toThrow()
   })

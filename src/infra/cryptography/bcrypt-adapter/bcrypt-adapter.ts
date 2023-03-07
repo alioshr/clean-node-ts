@@ -1,9 +1,8 @@
-import { HashComparer, Hasher } from '../../../data/protocols'
+import { type HashComparer, type Hasher } from '../../../data/protocols'
 import bcrypt from 'bcrypt'
 
 export class BCryptAdapter implements Hasher, HashComparer {
-  constructor (private readonly salt: number) {
-  }
+  constructor (private readonly salt: number) {}
 
   async hash (password: string): Promise<string> {
     const hashedPassword = await bcrypt.hash(password, this.salt)

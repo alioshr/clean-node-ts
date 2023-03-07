@@ -1,16 +1,21 @@
 import { SignUpController } from './signup-controller'
 import { MissingParamError } from '../../../errors'
 import {
-  AddAccount,
-  AddAccountModel,
-  AccountModel,
-  AuthAccount,
-  AuthAccountModel,
-  AuthResponseData
+  type AddAccount,
+  type AddAccountModel,
+  type AccountModel,
+  type AuthAccount,
+  type AuthAccountModel,
+  type AuthResponseData
 } from './signup-controller-protocols'
-import { badRequest, conflict, ok, serverError } from '../../../helpers/http/http-helper'
-import { HttpRequest } from '../../../protocols'
-import { Validator } from '../../../protocols/validator'
+import {
+  badRequest,
+  conflict,
+  ok,
+  serverError
+} from '../../../helpers/http/http-helper'
+import { type HttpRequest } from '../../../protocols'
+import { type Validator } from '../../../protocols/validator'
 
 const makeValidatorStub = (): Validator => {
   class ValidatorStub implements Validator {
@@ -40,7 +45,7 @@ const makeFakeAccount = (): AccountModel => ({
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add (account: AddAccountModel): Promise<AccountModel> {
-      return await new Promise((resolve) => resolve(makeFakeAccount()))
+      return await new Promise((resolve) => { resolve(makeFakeAccount()) })
     }
   }
   return new AddAccountStub()
@@ -54,7 +59,7 @@ const makeFakeAuthAccount = (): AuthResponseData => ({
 const makeAuthAccountStub = (): AuthAccount => {
   class AuthAccountStub implements AuthAccount {
     async auth (authData: AuthAccountModel): Promise<AuthResponseData> {
-      return await new Promise((resolve) => resolve(makeFakeAuthAccount()))
+      return await new Promise((resolve) => { resolve(makeFakeAuthAccount()) })
     }
   }
   return new AuthAccountStub()
@@ -103,7 +108,7 @@ describe('Auth Controller', () => {
     const { sut, addAccountStub } = makeSut()
     const error = new Error()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
-      return await new Promise((resolve, reject) => reject(error))
+      return await new Promise((resolve, reject) => { reject(error) })
     })
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(serverError(error))
@@ -113,7 +118,7 @@ describe('Auth Controller', () => {
     const { sut, addAccountStub } = makeSut()
     jest
       .spyOn(addAccountStub, 'add')
-      .mockReturnValueOnce(new Promise((resolve, reject) => resolve(null)))
+      .mockReturnValueOnce(new Promise((resolve, reject) => { resolve(null) }))
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(conflict('email exists'))
   })

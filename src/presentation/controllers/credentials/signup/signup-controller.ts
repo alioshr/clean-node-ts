@@ -1,12 +1,17 @@
-import { badRequest, serverError, ok, conflict } from '../../../helpers/http/http-helper'
 import {
-  HttpRequest,
-  HttpResponse,
-  Controller,
-  AddAccount,
-  AuthAccount
+  badRequest,
+  serverError,
+  ok,
+  conflict
+} from '../../../helpers/http/http-helper'
+import {
+  type HttpRequest,
+  type HttpResponse,
+  type Controller,
+  type AddAccount,
+  type AuthAccount
 } from './signup-controller-protocols'
-import { Validator } from '../../../protocols/validator'
+import { type Validator } from '../../../protocols/validator'
 
 export class SignUpController implements Controller {
   constructor (

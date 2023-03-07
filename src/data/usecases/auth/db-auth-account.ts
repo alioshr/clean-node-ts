@@ -1,14 +1,14 @@
 import {
-  AuthResponseData,
-  AccountModel,
-  AuthAccount,
-  AuthAccountModel
+  type AuthResponseData,
+  type AccountModel,
+  type AuthAccount,
+  type AuthAccountModel
 } from './db-auth-account-protocols'
 import {
-  HashComparer,
-  Encrypter,
-  LoadAccountRepository,
-  UpdateAccessTokenRepository
+  type HashComparer,
+  type Encrypter,
+  type LoadAccountRepository,
+  type UpdateAccessTokenRepository
 } from '../../protocols'
 
 export class DbAuthAccount implements AuthAccount {
@@ -39,9 +39,9 @@ export class DbAuthAccount implements AuthAccount {
     })
 
     await this.updateAccessToken.updateToken({
-      token: token,
+      token,
       id: (account as AccountModel).id
     })
-    return { userId: (account as AccountModel).id, token: token }
+    return { userId: (account as AccountModel).id, token }
   }
 }

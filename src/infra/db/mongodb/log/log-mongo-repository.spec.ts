@@ -1,5 +1,5 @@
-import { Collection } from 'mongodb'
-import { ILogErrorRepository } from '../../../../data/protocols/db/log/log-error-repository'
+import { type Collection } from 'mongodb'
+import { type ILogErrorRepository } from '../../../../data/protocols/db/log/log-error-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { LogMongoRepository } from './log-mongo-repository'
 
@@ -35,7 +35,7 @@ describe('Log Repository', () => {
     const stackError = 'Fake stack error'
 
     await sut.logError(stackError)
-    const errorOnDb = await errorCollection.findOne({ stackError: stackError })
-    expect(errorOnDb.stackError).toEqual(stackError)
+    const errorOnDb = await errorCollection.findOne({ stackError })
+    expect(errorOnDb?.stackError).toEqual(stackError)
   })
 })

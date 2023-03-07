@@ -1,10 +1,10 @@
 import {
-  AccountModel,
-  AddAccount,
-  AddAccountModel,
-  Hasher,
-  AddUserRepository,
-  LoadAccountRepository
+  type AccountModel,
+  type AddAccount,
+  type AddAccountModel,
+  type Hasher,
+  type AddUserRepository,
+  type LoadAccountRepository
 } from './db-add-account-protocols'
 
 export class DbAddAccount implements AddAccount {
@@ -14,7 +14,9 @@ export class DbAddAccount implements AddAccount {
     private readonly loadAccount: LoadAccountRepository
   ) {}
 
-  async add (accountData: AddAccountModel): Promise<AccountModel | Error | null> {
+  async add (
+    accountData: AddAccountModel
+  ): Promise<AccountModel | Error | null> {
     const account = await this.loadAccount.load(accountData.email)
     if (account) {
       return null

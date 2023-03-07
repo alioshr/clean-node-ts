@@ -1,5 +1,5 @@
 import { MissingParamError } from '../../presentation/errors'
-import { Validator } from '../../presentation/protocols'
+import { type Validator } from '../../presentation/protocols'
 
 export class RequiredFieldValidation implements Validator {
   private readonly fieldName: string
@@ -8,7 +8,7 @@ export class RequiredFieldValidation implements Validator {
     this.fieldName = fieldName
   }
 
-  validate (data: { [key: string]: string }): Error | null {
+  validate (data: Record<string, string>): Error | null {
     if (!data[this.fieldName]) {
       return new MissingParamError(this.fieldName)
     }

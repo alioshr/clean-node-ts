@@ -1,13 +1,17 @@
-import { HashComparer, Hasher } from '../../../data/protocols'
+import { type HashComparer, type Hasher } from '../../../data/protocols'
 import { BCryptAdapter } from './bcrypt-adapter'
 
 import bcrypt from 'bcrypt'
 
 jest.mock('bcrypt', () => ({
   hash: async (): Promise<string> =>
-    await new Promise((resolve) => resolve('hash')),
+    await new Promise((resolve) => {
+      resolve('hash')
+    }),
   compare: async (): Promise<boolean> =>
-    await new Promise((resolve) => resolve(true))
+    await new Promise((resolve) => {
+      resolve(true)
+    })
 }))
 
 interface SutTypes {
@@ -41,11 +45,13 @@ describe('Bcrypt Adapter', () => {
   test('Should throw if bcrypt hash throws', async () => {
     const { sut } = makeSut()
     const password = 'valid_password'
-    jest
-      .spyOn(bcrypt, 'hash')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+    jest.spyOn(bcrypt, 'hash').mockReturnValueOnce(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      new Promise((_resolve, reject) => {
+        reject(new Error())
+      })
+    )
     const promise = sut.hash(password)
     await expect(promise).rejects.toThrow()
   })
@@ -69,6 +75,8 @@ describe('Bcrypt Adapter', () => {
   })
   test('Should return false from bcrypt compare if values do not match', async () => {
     const { sut } = makeSut()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     jest.spyOn(bcrypt, 'compare').mockReturnValueOnce(Promise.resolve(false))
 
     const password = 'invalid_password'
@@ -79,11 +87,13 @@ describe('Bcrypt Adapter', () => {
   test('Should throw if bcrypt compare throws', async () => {
     const { sut } = makeSut()
     const password = 'valid_password'
-    jest
-      .spyOn(bcrypt, 'compare')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+    jest.spyOn(bcrypt, 'compare').mockReturnValueOnce(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      new Promise((_resolve, reject) => {
+        reject(new Error())
+      })
+    )
     const promise = sut.compare(password, 'valid hash')
     await expect(promise).rejects.toThrow()
   })

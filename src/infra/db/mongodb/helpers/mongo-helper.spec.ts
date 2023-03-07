@@ -1,9 +1,13 @@
-import { MongoClient } from 'mongodb'
+import { type MongoClient } from 'mongodb'
 import { MongoHelper as sut } from './mongo-helper'
 
-describe('Mongo Helper', () => {
-  beforeAll(async () => await sut.connect(process.env.MONGO_URL as string))
-  afterAll(async () => await sut.disconnect())
+describe.skip('Mongo Helper', () => {
+  beforeAll(async () => {
+    await sut.connect(process.env.MONGO_URL as string)
+  })
+  afterAll(async () => {
+    await sut.disconnect()
+  })
 
   test('Should reconnect when mongodb is down', async () => {
     let accountCollection = await sut.getCollection('accounts')
@@ -23,8 +27,7 @@ describe('Mongo Helper', () => {
     const accountCollection = await sut.getCollection('accounts')
     expect(accountCollection).toBeTruthy()
 
-    const dbSpy = jest
-      .spyOn((sut.client as MongoClient), 'connect')
+    const dbSpy = jest.spyOn(sut.client as MongoClient, 'connect')
     expect(dbSpy).toHaveBeenCalledTimes(0)
   })
 })

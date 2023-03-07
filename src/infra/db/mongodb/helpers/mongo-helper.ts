@@ -1,12 +1,12 @@
-import { Collection, MongoClient } from 'mongodb'
-import { AccountModel } from '../../../../domain/models/account'
+import { type Collection, MongoClient } from 'mongodb'
+import { type AccountModel } from '../../../../domain/models/account'
 
 interface IMongoHelper {
   client: MongoClient | null
   uri: string | null
-  connect: (uri: string) => Promise<void>
-  disconnect: () => Promise<void>
-  getCollection: (name: string) => Promise<Collection>
+  connect: (this: IMongoHelper, uri: string) => Promise<void>
+  disconnect: (this: IMongoHelper) => Promise<void>
+  getCollection: (this: IMongoHelper, name: string) => Promise<Collection>
   map: (account: any) => AccountModel
 }
 
@@ -16,10 +16,7 @@ export const MongoHelper: IMongoHelper = {
 
   async connect (uri: string) {
     this.uri = uri
-    this.client = await MongoClient.connect(uri, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true
-    })
+    this.client = await MongoClient.connect(uri)
   },
 
   async disconnect () {
@@ -28,9 +25,6 @@ export const MongoHelper: IMongoHelper = {
   },
 
   async getCollection (name: string): Promise<Collection> {
-    if (!this.client?.isConnected()) {
-      await this.connect(this.uri)
-    }
     return (this.client as MongoClient).db().collection(name)
   },
 

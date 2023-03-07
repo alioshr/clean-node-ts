@@ -1,8 +1,8 @@
-import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository'
+import { type ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository'
 import {
-  Controller,
-  HttpRequest,
-  HttpResponse
+  type Controller,
+  type HttpRequest,
+  type HttpResponse
 } from '../../presentation/protocols'
 
 export class LoggerControllerDecorator implements Controller {

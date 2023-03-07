@@ -1,10 +1,10 @@
-import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository'
-import { AccountModel } from '../../domain/models/account'
+import { type ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository'
+import { type AccountModel } from '../../domain/models/account'
 import { ok, serverError } from '../../presentation/helpers/http/http-helper'
 import {
-  Controller,
-  HttpRequest,
-  HttpResponse
+  type Controller,
+  type HttpRequest,
+  type HttpResponse
 } from '../../presentation/protocols'
 import { LoggerControllerDecorator } from './log-controller-decorator'
 
@@ -49,7 +49,7 @@ const makeFakeServerError = (): {
 const makeControllerStub = (): Controller => {
   class ControllerStub implements Controller {
     async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-      return await new Promise((resolve) => resolve(makeHttpResponse()))
+      return await new Promise((resolve) => { resolve(makeHttpResponse()) })
     }
   }
   return new ControllerStub()

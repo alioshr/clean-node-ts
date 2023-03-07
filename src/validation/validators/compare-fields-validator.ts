@@ -1,5 +1,5 @@
 import { InvalidParamError } from '../../presentation/errors'
-import { Validator } from '../../presentation/protocols/validator'
+import { type Validator } from '../../presentation/protocols/validator'
 
 export class CompareFieldsValidation implements Validator {
   constructor (
@@ -7,7 +7,7 @@ export class CompareFieldsValidation implements Validator {
     private readonly fieldToCompareName: string
   ) {}
 
-  validate (data: { [key: string]: string }): Error | null {
+  validate (data: Record<string, string>): Error | null {
     if (data[this.fieldName] !== data[this.fieldToCompareName]) {
       return new InvalidParamError(this.fieldToCompareName)
     }

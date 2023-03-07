@@ -1,4 +1,4 @@
-import { Validator } from '../../presentation/protocols/validator'
+import { type Validator } from '../../presentation/protocols/validator'
 import { ValidatorComposite } from './validator-composite'
 
 const makeValidations = (): Validator[] => {
